@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LOGIX.AI | Rut & Sevkiyat Arama Motoru</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            lemon: {
+              DEFAULT: '#E5FF00',
+              dim: '#B8CC00',
+              light: '#829600'
+            },
+            obsidian: {
+              950: '#090A0C',
+              900: '#111317',
+              800: '#181B21',
+              700: '#242933'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #ai-logistics-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .glass-panel {
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .dark .glass-panel {
+      background: rgba(17, 19, 23, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.85);
+    }
+    html:not(.dark) .glass-panel {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(24, 27, 33, 0.12);
+      box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.08);
+    }
+
+    .dark .search-box:focus-within {
+      border-color: #E5FF00;
+      box-shadow: 0 0 0 3px rgba(229, 255, 0, 0.16), 0 12px 35px -8px rgba(0, 0, 0, 0.7);
+    }
+    html:not(.dark) .search-box:focus-within {
+      border-color: #181B21;
+      box-shadow: 0 0 0 3px rgba(229, 255, 0, 0.45), 0 12px 35px -8px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes truckDrive {
+      0% { transform: translateX(-20px); opacity: 0.2; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateX(calc(100% - 50px)); opacity: 0.9; }
+    }
+    .animate-truck-drive {
+      animation: truckDrive 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes roadDash {
+      to { stroke-dashoffset: -24; }
+    }
+    .road-line {
+      stroke-dasharray: 6 6;
+      animation: roadDash 0.45s linear infinite;
+    }
+
+    @keyframes mapRouteFlow {
+      to { stroke-dashoffset: -36; }
+    }
+    .map-route-active {
+      stroke-dasharray: 8 6;
+      animation: mapRouteFlow 0.9s linear infinite;
+    }
+
+    @keyframes radarPing {
+      0% { r: 6; opacity: 0.9; }
+      100% { r: 24; opacity: 0; }
+    }
+    .radar-ping-circle {
+      animation: radarPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(150, 155, 165, 0.3); border-radius: 9999px; }
+  </style>
+</head>
+<body class="dark:bg-obsidian-950 bg-[#F3F4F6] dark:text-zinc-100 text-zinc-900 min-h-screen flex flex-col justify-between selection:bg-lemon selection:text-black">
+
+  <!-- Arka Plan Yapay Zeka & Lojistik Animasyonu -->
+  <canvas id="ai-logistics-canvas"></canvas>
+
+  <!-- Üst Minimal Bar -->
+  <header class="relative z-20 w-full max-w-6xl mx-auto px-5 pt-4 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <span class="w-2.5 h-2.5 rounded-full dark:bg-lemon bg-zinc-900 animate-pulse"></span>
+      <span id="serverStatusText" class="text-[11px] font-mono uppercase tracking-widest dark:text-zinc-400 text-zinc-600">LOGIX.AI // GERÇEK ZAMANLI SUNUCU AKTİF</span>
+    </div>
+
+    <div class="flex items-center gap-2.5">
+      <button id="openAddModalBtn" class="px-3.5 py-1.5 rounded-full glass-panel flex items-center gap-2 text-xs font-semibold dark:text-lemon text-zinc-900 dark:border-lemon/40 border-zinc-400 hover:scale-105 transition-all cursor-pointer">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Yeni Rut Ekle</span>
+      </button>
+
+      <button id="themeToggle" class="px-3.5 py-1.5 rounded-full glass-panel flex items-center gap-2 text-xs font-medium dark:text-zinc-300 text-zinc-700 hover:scale-105 transition-transform cursor-pointer">
+        <svg id="sunIcon" class="w-3.5 h-3.5 text-lemon hidden dark:inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg id="moonIcon" class="w-3.5 h-3.5 text-zinc-800 dark:hidden inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <span id="themeText">Açık Tema</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Ana Merkez Alanı -->
+  <main class="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-6xl mx-auto px-4 py-2">
+
+    <!-- Marka Başlığı -->
+    <div class="text-center mb-4">
+      <div class="inline-flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl dark:bg-lemon bg-zinc-900 flex items-center justify-center shadow-md">
+          <svg class="w-5 h-5 dark:text-obsidian-950 text-lemon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13" rx="2"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+        </div>
+        <h1 class="font-display text-3xl sm:text-4xl font-extrabold tracking-tight dark:text-white text-zinc-900">
+          LOGIX<span class="dark:text-lemon text-zinc-500">.AI</span>
+        </h1>
+      </div>
+      <p class="text-xs dark:text-zinc-400 text-zinc-600 mt-1">
+        Şube kodu veya nokta adı yazıp listeden seçin ya da <strong>Ara</strong> butonuna basın
+      </p>
+    </div>
+
+    <!-- Google Tarzı Arama Çubuğu -->
+    <div class="w-full max-w-3xl relative mb-3">
+      <form id="searchForm" class="search-box glass-panel rounded-2xl p-1.5 flex items-center gap-2 transition-all duration-200">
+        <div class="pl-3.5 pr-1 dark:text-zinc-400 text-zinc-500 flex items-center">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </div>
+        <input
+          id="searchInput"
+          type="text"
+          autocomplete="off"
+          placeholder="Örn: BK02.00085 - H-S TEKS.GIDA (İSTANBUL CAPACITY AVM FC BK FR)"
+          class="w-full bg-transparent py-2.5 text-sm sm:text-base dark:text-white text-zinc-900 placeholder-zinc-500 focus:outline-none"
+        />
+        <button
+          type="button"
+          id="clearBtn"
+          title="Temizle"
+          class="hidden p-2 rounded-xl dark:text-zinc-400 text-zinc-500 hover:dark:text-white hover:text-black transition-colors cursor-pointer"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <button
+          type="submit"
+          class="px-5 py-2.5 rounded-xl font-display font-bold text-sm dark:bg-lemon dark:text-obsidian-950 bg-zinc-900 text-lemon hover:opacity-90 active:scale-95 transition-all flex items-center gap-2 shrink-0 cursor-pointer shadow-sm"
+        >
+          <span>Ara</span>
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </form>
+
+      <!-- Otomatik Tamamlama Listesi -->
+      <div id="suggestionsBox" class="hidden absolute left-0 right-0 top-full mt-1.5 glass-panel rounded-2xl overflow-hidden z-40 max-h-60 overflow-y-auto divide-y dark:divide-zinc-800/80 divide-zinc-200 shadow-2xl"></div>
+    </div>
+
+    <!-- Arama Animasyonu: Tatlı Mini Tır Sevkiyat Barı -->
+    <div id="truckLoader" class="hidden w-full max-w-2xl my-2 px-4">
+      <div class="relative h-11 flex items-center">
+        <svg class="w-full h-2 overflow-visible" viewBox="0 0 400 8" preserveAspectRatio="none">
+          <line x1="0" y1="4" x2="400" y2="4" stroke="currentColor" stroke-width="2" class="road-line dark:text-zinc-700 text-zinc-400" />
+        </svg>
+        <div class="absolute left-0 w-3 h-3 rounded-full dark:bg-zinc-600 bg-zinc-400"></div>
+        <div class="absolute right-0 w-3.5 h-3.5 rounded-full dark:bg-lemon bg-zinc-900 ring-4 dark:ring-lemon/20 ring-zinc-900/15"></div>
+        <div id="truckSprite" class="absolute left-0 -top-1 flex items-center gap-1.5 px-2.5 py-1 rounded-lg dark:bg-lemon dark:text-obsidian-950 bg-zinc-900 text-lemon font-mono text-[11px] font-bold shadow-lg">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13" rx="2"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+          <span>SEVKİYAT ROTASI HESAPLANIYOR...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sonuç Alanı -->
+    <div id="resultWrapper" class="w-full max-w-6xl mt-1"></div>
+
+  </main>
+
+  <!-- Alt Bilgi -->
+  <footer class="relative z-10 text-center py-2.5 text-[11px] font-mono dark:text-zinc-600 text-zinc-500">
+    LOGIX.AI • SİYAH / GRİ / LİMON SARISI MİNİMAL RUT MOTORU
+  </footer>
+
+  <!-- YENİ RUT / NOKTA EKLEME MODALI -->
+  <div id="addRouteModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="glass-panel w-full max-w-xl rounded-2xl p-6 relative border dark:border-zinc-700 border-zinc-300 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b dark:border-zinc-800 border-zinc-200">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full dark:bg-lemon bg-zinc-900"></span>
+          <h3 class="font-display font-bold text-lg dark:text-white text-zinc-900">Yeni Rut / Sevkiyat Noktası Ekle</h3>
+        </div>
+        <button id="closeAddModalBtn" class="p-1.5 rounded-lg dark:text-zinc-400 text-zinc-500 hover:dark:text-white hover:text-black cursor-pointer">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="addRouteForm" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-[11px] font-mono uppercase dark:text-zinc-400 text-zinc-600 mb-1">Sevkiyat Günü</label>
+            <select id="newRouteDay" required class="w-full rounded-xl px-3 py-2 text-xs font-semibold dark:bg-obsidian-800 bg-zinc-100 dark:text-white text-zinc-900 border dark:border-zinc-700 border-zinc-300 focus:outline-none focus:border-lemon">
+              <option value="PAZARTESİ">PAZARTESİ</option>
+              <option value="SALI">SALI</option>
+              <option value="ÇARŞAMBA">ÇARŞAMBA</option>
+              <option value="PERŞEMBE">PERŞEMBE</option>
+              <option value="CUMA">CUMA</option>
+              <option value="CUMARTESİ">CUMARTESİ</option>
+              <option value="PAZAR">PAZAR</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-mono uppercase dark:text-zinc-400 text-zinc-600 mb-1">Depo Başlangıç Saati</label>
+            <input id="newRouteTime" type="text" required placeholder="Örn: 22:00-23:30" class="w-full rounded-xl px-3 py-2 text-xs font-mono dark:bg-obsidian-800 bg-zinc-100 dark:text-white text-zinc-900 border dark:border-zinc-700 border-zinc-300 focus:outline-none focus:border-lemon" />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-mono uppercase dark:text-zinc-400 text-zinc-600 mb-1">Rut Derecesi (0 - 5)</label>
+            <select id="newRouteRating" required class="w-full rounded-xl px-3 py-2 text-xs font-semibold dark:bg-obsidian-800 bg-zinc-100 dark:text-white text-zinc-900 border dark:border-zinc-700 border-zinc-300 focus:outline-none focus:border-lemon">
+              <option value="5">5 / 5 - En İyi (Kusursuz)</option>
+              <option value="4">4 / 5 - İyi (Akıcı)</option>
+              <option value="3" selected>3 / 5 - Ortalama (Standart)</option>
+              <option value="2">2 / 5 - Ortalamanın Altı (Yoğun)</option>
+              <option value="1">1 / 5 - Zorlu (Kritik)</option>
+              <option value="0">0 / 5 - En Kötü (Darboğaz)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-[11px] font-mono uppercase dark:text-zinc-400 text-zinc-600">Soldan Sağa Rut Durakları (Sırasıyla)</label>
+            <button type="button" id="addStopFieldBtn" class="text-[11px] font-mono font-bold dark:text-lemon text-zinc-900 hover:underline flex items-center gap-1 cursor-pointer">
+              + Durak Satırı Ekle
+            </button>
+          </div>
+          <div id="stopsInputsContainer" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono font-bold dark:text-lemon text-zinc-700 w-16 shrink-0">1. Durak</span>
+              <input type="text" required placeholder="Örn: BK02.00085 - H-S TEKS.GIDA (İSTANBUL CAPACITY AVM)" class="stop-input w-full rounded-xl px-3 py-2 text-xs dark:bg-obsidian-800 bg-zinc-100 dark:text-white text-zinc-900 border dark:border-zinc-700 border-zinc-300 focus:outline-none focus:border-lemon" />
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono font-bold dark:text-zinc-400 text-zinc-600 w-16 shrink-0">2. Durak</span>
+              <input type="text" placeholder="Örn: PP01.00035 - İSTANBUL BAKIRKÖY CAPACITY AVM (Opsiyonel)" class="stop-input w-full rounded-xl px-3 py-2 text-xs dark:bg-obsidian-800 bg-zinc-100 dark:text-white text-zinc-900 border dark:border-zinc-700 border-zinc-300 focus:outline-none focus:border-lemon" />
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono font-bold dark:text-zinc-400 text-zinc-600 w-16 shrink-0">3. Durak</span>
+              <input type="text" placeholder="3. Durak noktasını girin (Opsiyonel)" class="stop-input w-full rounded-xl px-3 py-2 text-xs dark:bg-obsidian-800 bg-zinc-100 dark:text-white text-zinc-900 border dark:border-zinc-700 border-zinc-300 focus:outline-none focus:border-lemon" />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-3 border-t dark:border-zinc-800 border-zinc-200">
+          <button type="button" id="cancelAddModalBtn" class="px-4 py-2 rounded-xl text-xs font-semibold dark:bg-obsidian-800 bg-zinc-200 dark:text-zinc-300 text-zinc-700 cursor-pointer">
+            İptal
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-display font-bold dark:bg-lemon dark:text-obsidian-950 bg-zinc-900 text-lemon hover:opacity-90 cursor-pointer shadow-md">
+            Rutu Kaydet & Göster
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // YEDEK (FALLBACK) VERİ: Statik GitHub Pages'te çalışırken kullanılır, Node.js çalışırken /api/routes üzerinden güncellenir
+    const FALLBACK_ROUTES = [{"id": 1, "day": "PAZARTESİ", "order": 4, "stops": ["BK02.00372 - EKUR İNŞ.-2 (MARMARAPARK BK FR)", "AR01.00040 - BEYLİKDÜZÜ MARMARA PARK AVM ARBYS", "UD01.00223 - İSTANBUL MARMARAPARK AVM FC UD TAB GIDA"], "time": "22:00 - 23:30/00:00", "rating": 5}, {"id": 2, "day": "PAZARTESİ", "order": 5, "stops": ["BK01.00885 - İSTANBUL KAĞITHANE HAMİDİYE MAH.  IL BK TAB GIDA", "PP01.00490 - İSTANBUL KAĞITHANE HAMİDİYE MAH. IL PP TAB GIDA", "BK02.00386 - ŞENÇAĞ-3(İSTANBUL KAĞITHANE MERK. MAH.IL BK FR)"], "time": "Ekipli : 22:00-00:30 Ekipsiz:20:00-23:00", "rating": 4}, {"id": 3, "day": "PAZARTESİ", "order": 6, "stops": ["BK01.00613 - ZORLU AVM BK TAB GIDA", "PP01.00217 - İSTANBUL BEŞİKTAŞ ZORLU CENTER AVM FC PE TAB GIDA", "AR01.00050 - ZORLU CENTER ARBYS TAB GIDA", "UD01.00201 - İSTANBUL ZORLU CENTER UD TAB GIDA"], "time": "22:00 - 23:00", "rating": 5}, {"id": 4, "day": "PAZARTESİ", "order": 7, "stops": ["BK01.00040 - CEVAHİR TAB GIDA", "AR01.00060 - CEVAHİR ARBYS TAB GIDA"], "time": "22:00 - 23:30", "rating": 5}, {"id": 5, "day": "PAZARTESİ", "order": 8, "stops": ["BK01.00871 - İSTANBUL GALATAPORT IL BK TAB GIDA", "PP01.00473 - İSTANBUL GALATAPORT AVM FC PE TAB GIDA", "BK01.00005 - SİRKECİ TAB GIDA"], "time": "22:00 -01:00", "rating": 3}, {"id": 6, "day": "PAZARTESİ", "order": 9, "stops": ["BK02.00397 - BEDİRLER OTO.-3(212 AVM BK FR)", "PP01.00044 - İSTANBUL BAĞCILAR 212 AVM FC PE TAB GIDA", "AR01.00181 - İSTANBUL İKİTELLİ 212 AVM FC ARB TAB GIDA", "UD01.00032 - İSTANBUL İKİTELLİ 212 AVM FC UD"], "time": "21:30-23:00", "rating": 5}, {"id": 7, "day": "PAZARTESİ", "order": 10, "stops": ["BK02.00484 - GLOBALTÜRK(İSTANBUL ESENYURT N MERKEZ AVM FC BK FR)", "PP02.00048 - GLOBALTÜRK-2(İST.ESENYURT N MERKEZ AVM FC PP FR)"], "time": "22:00-23:30", "rating": 5}, {"id": 8, "day": "PAZARTESİ", "order": 11, "stops": ["BK01.00728 - İSTANBUL ŞİŞLİ HUKUKÇULAR IL BK TAB GIDA", "BK01.00315 - FULYA REAL AVM TAB GIDA", "ZORLU CENTER AVM TAKV."], "time": "23:30-01:00", "rating": 2}, {"id": 9, "day": "PAZARTESİ", "order": 12, "stops": ["PP01.00462 - İSTANBUL ESENLER DÖRTYOL IL PE TAB GIDA", "AR01.00191 - İSTANBUL ESENLER DÖRTYOL IL ARB TAB GIDA", "212 AVM TAKV."], "time": "00:00-01:00", "rating": 3}, {"id": 10, "day": "PAZARTESİ", "order": 13, "stops": ["BK01.00598 - ZEKERİYAKÖY BK TAB GIDA", "PP01.00413 - ZEKERİYAKÖY IL PP  TAB GIDA", "BK01.00015 - TARABYA  TAB GIDA"], "time": "22:30-01:30", "rating": 2}, {"id": 11, "day": "PAZARTESİ", "order": 14, "stops": ["PP01.00491 - İSTANBUL FULYA REAL(ANPA) AVM FC PE", "AR01.00201 - İSTANBUL FULYA REAL (ANPA) AVM FC ARBYS TAB GIDA", "SB01.00261 - İSTANBUL FULYA ANPA AVM FC SB TAB GIDA SAN VE TİC.A.Ş.", "UD01.00243 - İSTANBUL FULYA REAL (ANPA) AVM FC UD TAB GIDA"], "time": "23:30-01:30", "rating": 3}, {"id": 12, "day": "PAZARTESİ", "order": 15, "stops": ["BK02.00580 - BEŞİKTAŞ BİS GIDA ( İSTANBUL BEŞİKTAŞ IL BK FR)", "PP01.00451 - İSTANBUL BEŞİKTAŞ BARBAROS BUL.IL PE TAB GIDA", "SB02.00209 - İNCE NAKLİYE TURİZM İNŞ. GIDA (BEŞİKTAŞ BARBAROS BULVARI IL SB Aİ)"], "time": "01:00-03:00", "rating": 3}, {"id": 13, "day": "PAZARTESİ", "order": 16, "stops": ["PP01.00437 - İSTANBUL ŞİŞLİ HALASKARGAZİ CAD. IL PE TAB GIDA", "BK01.00027 - TAKSİM TAB GIDA"], "time": "00:00-03:00", "rating": 2}, {"id": 14, "day": "PAZARTESİ", "order": 17, "stops": ["BK01.00562 - DEMİRÖREN AVM BEYOĞLU BK TAB GIDA", "SB02.00156 - ARFES GIDA (İSTANBUL İSTİKLAL AVM FC SB Aİ)", "BK01.00696 - İSTANBUL FINDIKZADE IL BK TAB GIDA"], "time": "00:00-03:30", "rating": 1}, {"id": 15, "day": "PAZARTESİ", "order": 18, "stops": ["BK02.00610 - ÖZZENGİN(ÇAĞLAYAN MEYDAN BK)", "PP01.00362 - İSTANBUL ÇAĞLAYAN ADLİYE IL PE TAB GIDA", "AR01.00155 - ÇAĞLAYAN ADLİYE İL ARBYS TAB GIDA"], "time": "23:30-01:00", "rating": 3}, {"id": 16, "day": "PAZARTESİ", "order": 19, "stops": ["BK01.00038 - İSTİNYE CARREFOUR BK TAB GIDA", "TARABYA BK TAKV.", "TEMPOINT VEGA AVM TAKV."], "time": "00:00-00:30", "rating": 3}, {"id": 17, "day": "PAZARTESİ", "order": 20, "stops": ["BK02.00711 - YILMER GIDA-7  (İSTANBUL ESENYURT ORHANGAZİ MAH. IL BK FR)", "BK02.00742 - GLOBALTÜRK-8 (İSTANBUL BEYLİKDÜZÜ DEMİR COUNTRY IL BK FR)", "PP01.00481 - İSTANBUL BEYLİKDÜZÜ DEMİR COUNTRY IL PE TAB GIDA"], "time": "23:30-01:30", "rating": 3}, {"id": 18, "day": "PAZARTESİ", "order": 21, "stops": ["BK01.00013 - MECİDİYEKÖY TAB GIDA", "PP01.00072 - İSTANBUL MECİDİYEKÖY IL PE TAB GIDA", "UD01.00084 - İSTANBUL MECİDİYEKÖY IL UD TAB GIDA", "TRUMP TOWERS AVM TAKV."], "time": "02:00-03:30", "rating": 3}, {"id": 19, "day": "PAZARTESİ", "order": 22, "stops": ["BK01.00316 - TAKSİM FİTAŞ TAB GIDA", "PP01.00427- İSTANBUL TAKSİM FİTAŞ IL PE TAB GIDA"], "time": "01:00-03:00", "rating": 1}, {"id": 20, "day": "PAZARTESİ", "order": 23, "stops": ["BK01.00775 - İSTANBUL TEMPOİNT VEGA AVM FC BK TAB GIDA", "PP01.00271 - İSTANBUL TEM POINT VEGA AVM FC PE TAB GIDA", "AR01.00135 - İSTANBUL TEMPOİNT VEGA AVM FC ARBYS TAB GIDA", "SB02.00212 - GÖKMEL GIDA-2 RESTORAN (İSTANBUL TEMPOİNT VEGA AVM FC SB Aİ)", "UD01.00185 - İSTANBUL TEMPOİNT VEGA AVM FC UD TAB GIDA"], "time": "01:30-03:30", "rating": 3}, {"id": 21, "day": "SALI", "order": 4, "stops": ["BK02.00579 - ZHB GIDA(İST.BEYLİKDÜZÜ ADNAN KAHVECİ BUL.IL BK FR )", "PP02.00056 - ZHB-3(İSTANBUL BEYLİKDÜZÜ ADNAN KAHVECİ BUL.IL PE FR)", "SW02.00121 - ZHB-4 GIDA (İSTANBUL BEYLİKDÜZÜ ADNAN KAHVECİ BUL. IL SW)", "BK02.00198 - KAR RESTORAN (AKBATI AVM)"], "time": "19:00-21:30", "rating": 5}, {"id": 22, "day": "SALI", "order": 5, "stops": ["BK01.00731 - İSTANBUL EYÜP PARK AVM FC BK TAB GIDA", "SB01.00208 - İSTANBUL EYÜP PARK SB TAB GIDA", "UP01.00009 - İSTANBUL EYÜP PARK AVM FC UP TAB GIDA", "BK02.00739 - ADN GROUP (İSTANBUL GAZİOSMANPAŞA CADDE TEM AVM FC BK FR)", "UD01.00247 - İSTANBUL GAZİOSMANPAŞA CADDE TEM AVM UD TAB GIDA"], "time": "22:00-01:00", "rating": 4}, {"id": 23, "day": "SALI", "order": 6, "stops": ["BK02.00199 - ARTA GIDA-2 (GÜNEŞLİ PARK AVM)", "BK01.00615 - BAĞCILAR MEYDAN BK TAB GIDA", "PP01.00450 - İSTANBUL BAĞCILAR MEYDAN2 IL PE TAB GIDA"], "time": "22:00-00:30", "rating": 3}, {"id": 24, "day": "SALI", "order": 7, "stops": ["PP01.00330 - İSTANBUL BAĞCILAR MEYDAN IL PE TAB GIDA", "AR01.00138 - İSTANBUL BAĞCILAR MEYDAN ARBY'S TAB GIDA", "UD01.00199 - İSTANBUL BAĞCILAR MEYDAN IL UD TAB GIDA"], "time": "22:00-23:00", "rating": 5}, {"id": 25, "day": "SALI", "order": 8, "stops": ["BK02.00450 - AROZ GIDA (OKMEYDANI IL BK FR)", "PP01.00425 - İSTANBUL OKMEYDANI  IL PE TAB GIDA"], "time": "21:00-23:00", "rating": 5}, {"id": 26, "day": "SALI", "order": 9, "stops": ["BK02.00214 - MOTEK GIDA (LEVENT ÖZDİLEK AVM BK)", "PP01.00135 - İSTANBUL LEVENT ÖZDİLEK AVM FC PE TAB GIDA", "AR01.00064 - LEVENT ÖZDİLEK ARBYS TAB GIDA", "SB02.00163 - BALPOY GIDA TURİZM (İSTANBUL LEVENT ÖZDİLEK AVM FC SB Aİ)", "UD02.00163 - BALPOY GIDA VE TURİZM (İSTANBUL LEVENT ÖZDİLEK AVM FC UD Aİ)"], "time": "22:00-00:00", "rating": 5}, {"id": 27, "day": "SALI", "order": 10, "stops": ["BK02.00154 - SERVETLER GIDA (SULTANGAZİ BK)", "BK01.00700 - SULTANGAZİ NEVA OUTLET AVM FC BK TAB"], "time": "21:30-23:00", "rating": 4}, {"id": 28, "day": "SALI", "order": 11, "stops": ["PP01.00066 - İSTANBUL ESENYURT TORIUM AVM FC PE TAB GIDA", "SB02.00174 - MORDEM GIDA (İST.TORIUM AVM FC SB Aİ)", "BK01.00495 - SEFAKÖY MEYDAN BK TAB GIDA"], "time": "22:30-01:00", "rating": 3}, {"id": 29, "day": "SALI", "order": 12, "stops": ["PP01.00108 - İSTANBUL BEYLİKDÜZÜ MARMARA PARK AVM FC PE TAB GIDA", "SB01.00125 - İSTANBUL BEYLİKDÜZÜ MARMARA PARK AVM FC SB TAB GIDA", "UP02.00000 - REKLAM ÜSSÜ(İSTANBUL MARMARAPARK AVM  FC UP )"], "time": "22:00-23:30", "rating": 5}, {"id": 30, "day": "SALI", "order": 13, "stops": ["BK01.00034 - ŞİŞLİ DRIVE TAB GIDA", "PP01.00248 - İSTANBUL ŞİŞLİ BLACKOUT IL PE TAB GIDA", "LEVENT ÖZDİLEK AVM TAKV."], "time": "23:30-00:30", "rating": 4}, {"id": 31, "day": "SALI", "order": 14, "stops": ["BK01.00030 - OLIVIUM CENTER TAB GIDA", "PP01.00208 - İSTANBUL ZEYTİNBURNU OLIVIUM AVM FC PE TAB GIDA", "AR01.00140 - İSTANBUL OLIVIUM AVM FC ARBYS TAB GIDA", "SB01.00252 - İSTANBUL OLİVİUM AVM FC SB TAB GIDA", "UD01.00233 - İSTANBUL OLIVIUM AVM FC UD TAB GIDA"], "time": "22:00-02:00", "rating": 3}, {"id": 32, "day": "SALI", "order": 15, "stops": ["BK01.00595 - MALL OF THE İSTANBUL BK TAB GIDA", "PP01.00128 - İSTANBUL İKİTELLİ MALL OF THE İSTANBUL AVM FC PE TAB GIDA", "AR01.00061 - MALL OF THE İSTANBUL ARBYS TAB GIDA", "BK01.00719 - İSTANBUL İKİTELLİ ORGANİZE SAN. IL BK TAB GIDA"], "time": "23:30-01:30", "rating": 3}, {"id": 33, "day": "SALI", "order": 16, "stops": ["BK01.00762 - İSTANBUL MERTER REAL AVM FC BK TAB GIDA", "SB01.00258 - İSTANBUL MERTER REAL IL SB TAB GIDA", "OLIVIUM AVM TAKV."], "time": "23:30-00:00", "rating": 4}, {"id": 34, "day": "SALI", "order": 17, "stops": ["BK01.00290 - MİMAROBA TAB GIDA", "AR01.00198 - İSTANBUL BÜYÜKÇEKMECE MİMAROBA ARB TAB GIDA"], "time": "00:00-01:00", "rating": 5}, {"id": 35, "day": "SALI", "order": 18, "stops": ["BK01.00431 - HALKALI ARENA PARK AVM BK TAB", "PP01.00088 - İSTANBUL KÜÇÜKÇEKMECE ARENA PARK AVM FC PE TAB GIDA", "UD01.00057 - HALKALI ARENA PARK AVM UD TAB GIDA", "BK01.00886 - İSTANBUL KÜÇÜKÇEKMECE HALKALI AVRUPAKENT IL BK TAB GIDA", "PP01.00445 - İST.KÜÇÜKÇEKMECE HALKALI AVRUPAKENT IL PE TAB GIDA"], "time": "00:00-02:00", "rating": 2}, {"id": 36, "day": "SALI", "order": 19, "stops": ["BK02.00396 - BEDİRLER OTO.-2(FATİH BK BR)", "BK02.00281 - MERNUR GIDA-2 (ÇAPA BK)", "BK01.00883 - İSTANBUL BEYOĞLU KARAKÖY MUMHANE CD. IL BK TAB GIDA"], "time": "22:00-03:00", "rating": 0}, {"id": 37, "day": "SALI", "order": 20, "stops": ["BK02.00116 - TMC-2 GIDA (ARTERIUM BK)", "PP01.00402 - BAŞAKŞEHİR ARTERIUM PE TAB GIDA", "BK01.00587 - CENNET DRIVE TRUE BK TAB GIDA"], "time": "23:30-01:30", "rating": 3}, {"id": 38, "day": "SALI", "order": 21, "stops": ["BK02.00698 - ALN GIDA-2(İST. BÜYÜKÇEKMECE KAMİLOBA IL BK FR)", "BK01.00289 - SİLİVRİ KİPA TAB GIDA", "PP01.00146 - SİLİVRİ KİPA PP TAB GIDA"], "time": "00:30-02:30", "rating": 2}, {"id": 39, "day": "SALI", "order": 22, "stops": ["BK02.00415 - SILA YATIRIM GIDA(ŞİŞLİ MEYDAN FR BK)", "BK02.00313 - TS GIDA REST. - 2 (TAKSİM BK-3)İŞLETM."], "time": "01:00-03:00", "rating": 2}, {"id": 40, "day": "SALI", "order": 23, "stops": ["BK01.00393 - MARMARA FORUM AVM B.KÖY TAB", "SB01.00085 - İSTANBUL BAKIRKÖY MARMARA FORUM AVM FC SB TAB GIDA", "UD02.00108 - İS RESTORAN VE GIDA ( İSTANBUL MARMARA FORUM AVM FC UD Aİ)", "BK01.00017 - İNCİRLİ TAB GIDA"], "time": "01:00-03:00", "rating": 2}, {"id": 41, "day": "ÇARŞAMBA", "order": 5, "stops": ["BK02.00677 - ADKAYA GIDA (İSTANBUL ISPARTAKULE BİZİM EVLER IL BK FR)", "PP02.00106 - ADKAYA GIDA-2 (İSTANBUL ISPARTAKULE BİZİM EVLER IL PE FR)", "PP01.00228 - İSTANBUL EYÜP PARK AVM FC PE TAB GIDA"], "time": "18:30-22:30", "rating": 5}, {"id": 42, "day": "ÇARŞAMBA", "order": 6, "stops": ["PP01.00041 - İSTANBUL ŞİŞLİ CEVAHİR AVM FC PE TAB GIDA", "SB01.00002 - İSTANBUL ŞİŞLİ CEVAHİR AVM FC SB TAB GIDA", "ADKAYA GIDA (İSTANBUL ISPARTAKULE BİZİM EVLER IL BK + PP)"], "time": "22:0-23:30", "rating": 5}, {"id": 43, "day": "ÇARŞAMBA", "order": 7, "stops": ["BK02.00728 - CAPO RESTORAN VE GIDA (İSTANBUL VENEZIA VIAPORT AVM BK FR)", "BK02.00164 - BİRİKİM PET-BEŞYÜZEVLER B.PAŞA BK"], "time": "20:30-22:30", "rating": 5}, {"id": 44, "day": "ÇARŞAMBA", "order": 8, "stops": ["BK01.00682 - EYÜP VİALAND TEMAPARK BK TAB GIDA", "PP01.00453 - İSTANBUL KAĞITHANE SEBA SUİT IL PE TAB GIDA", "PP01.00475 - İSTANBUL KAĞITHANE SULTAN SELİM MAH. IL PE TAB"], "time": "22:30-01:30", "rating": 2}, {"id": 45, "day": "ÇARŞAMBA", "order": 9, "stops": ["BK02.00570 - AQUACİTY GIDA(İSTANBUL AQUA FLORYA AVM FC BK FR)", "PP01.00401 - İSTANBUL AQUA FLORYA AVM FC PE TAB", "PERLAVISTA AVM TAKV."], "time": "22:00-23:00", "rating": 5}, {"id": 46, "day": "ÇARŞAMBA", "order": 10, "stops": ["BK02.00312 - TS GIDA REST. ( PELICAN AVM BK )", "PP01.00420 - İSTANBUL PELİCAN AVM FC PE TAB GIDA", "AR01.00182 - İSTANBUL PELİCAN AVM FC ARB TAB GIDA", "UD01.00229 - İSTANBUL PELİCAN AVM FC UD"], "time": "22:00-23:00", "rating": 5}, {"id": 47, "day": "ÇARŞAMBA", "order": 11, "stops": ["BK02.00697 - ALN GIDA (İSTANBUL PERLAVİSTA AVM FC BK FR)", "PP01.00064 - İSTANBUL BEYLİKDÜZÜ PERLAVISTA AVM FC PE TAB GIDA", "AR01.00089 - İSTANBUL PERLAVİSTA AVM FC ARBYS TAB GIDA", "UD01.00242 - İSTANBUL PERLAVİSTA AVM FC UD TAB GIDA"], "time": "22:00-23:30", "rating": 5}, {"id": 48, "day": "ÇARŞAMBA", "order": 12, "stops": ["BK01.00899 - İSTANBUL BAŞAKŞEHİR SULAR VADİSİ IL BK TAB GIDA", "BK02.00545 - MEG LOJİSTİK-3(İST.KAYAŞEHİR MİLLET BAHÇESİ IL BK FR)", "PP02.00043 - MEG LOJİSTİK-2(İST.KAYAŞEHİR MİLLET BAHÇESİ IL PE)"], "time": "22:00-00:00", "rating": 3}, {"id": 49, "day": "ÇARŞAMBA", "order": 13, "stops": ["PP01.00075 - İSTANBUL İSTİKLAL AVM FC PE TAB GIDA", "AR01.00018 - İSTANBUL İSTİKLAL AVM ARBYS TAB GIDA", "CAPO RESTORAN VE GIDA (VENEZIA VIAPORT AVM BK FR) TAKV."], "time": "23:30-02:00", "rating": 2}, {"id": 50, "day": "ÇARŞAMBA", "order": 14, "stops": ["BK01.00380 - TORIUM AVM ESENYURT TAB GIDA", "AR01.00011 - TORIUM AVM ESENYURT ARYBYS TAB", "PELICAN AVM TAKV."], "time": "22:00-23:30", "rating": 5}, {"id": 51, "day": "ÇARŞAMBA", "order": 15, "stops": ["BK02.00085 - H-S TEKS.GIDA (İSTANBUL CAPACITY AVM FC BK FR)", "PP01.00035 - İSTANBUL BAKIRKÖY CAPACITY AVM FC PE TAB GIDA", "AR02.00016 - DUYGU ÇOLAK (İSTANBUL CAPACITY AVM FC AR Aİ)", "UD02.00151 - ZEMCET GIDA (İST.CAPACITY AVM FC UD TAB GIDA)", "CAROUSEL AVM TAKV."], "time": "22:00-23:30", "rating": 5}, {"id": 52, "day": "ÇARŞAMBA", "order": 16, "stops": ["BK01.00756 - İSTANBUL BEYLİKDÜZÜ CUMHURİYET CAD.IL BK TAB", "PP01.00250 - İSTANBUL BEYLİKDÜZÜ CUMHURİYET CAD. IL PE TAB GIDA", "BK01.00426 - BEYLİKDÜZÜ WHITE CORNER BK TAB", "AR01.00195 - İSTANBUL WHITE CORNER IL ARB  TAB GIDA"], "time": "23:30-01:00", "rating": 2}, {"id": 53, "day": "ÇARŞAMBA", "order": 17, "stops": ["BK01.00620 - BAHÇEŞEHİR 3.CADDE BK TAB GIDA", "PP01.00416 - İSTANBUL BAHÇEŞEHİR 3.CAD.ŞEHRİ BAZAAR IL PE TAB GIDA.", "BK01.00855 - İSTANBUL BAŞAKŞEHİR BAHÇEŞEHİR GÖLET IL BK TAB GIDA"], "time": "23:30-01:00", "rating": 4}, {"id": 54, "day": "ÇARŞAMBA", "order": 18, "stops": ["BK01.00498 - YENİBOSNA KOÇTAŞ BK TAB GIDA", "PP01.00291 - İSTANBUL YENİBOSNA KOÇTAŞ AVM FC PE TAB GIDA", "BK01.00093 - KADİRHAS CENTER TAB GIDA"], "time": "00:30-01:30", "rating": 2}, {"id": 55, "day": "ÇARŞAMBA", "order": 19, "stops": ["BK02.00408 - H-S TEKSTİL 4 (CAROUSEL AVM FC BK FR)", "PP01.00101 - CAROUSEL AVM POPEYES TAB GIDA", "AR01.00001 - CAROUSEL(B.KÖY) ARBYS TAB GIDA"], "time": "22:30-00:30", "rating": 4}, {"id": 56, "day": "ÇARŞAMBA", "order": 21, "stops": ["PP01.00317 - İST. B.HAYRETTİN PAŞA TRENDPARK IL PE TAB GIDA", "AR01.00129 - İST. B.HAYRETTİN PAŞA TRENDPARK IL ARBYS TAB GIDA", "PP01.00446 - İSTANBUL BAHÇEŞEHİR STRADA IL PE TAB GIDA"], "time": "00:00-02:00", "rating": 2}, {"id": 57, "day": "ÇARŞAMBA", "order": 22, "stops": ["BK02.00558- ALKENT(İSTANBUL BÜYÜKÇEKMECEDEMİR LAVİDA IL BK FR)", "PP02.00052 - ALKENT-2(İSTANBUL BÜYÜKÇEKMECE DEMİR LAVİDA IL PE FR)", "BK01.00321 - SKYPORT BEYLİKDÜZÜ TAB GIDA", "PP01.00298 - İSTANBUL SKYPORT IL PE TAB GIDA"], "time": "01:00-02:30", "rating": 3}, {"id": 58, "day": "ÇARŞAMBA", "order": 23, "stops": ["BK02.00721 - H-S TEKSTİL-6 GIDA  (ATAKÖY PLUS AVM FC BK)", "PP01.00166 - İSTANBUL ATAKÖY A-PLUS AVM FC PE TAB GIDA", "AR01.00069 - ATAKÖY A PLUS AVM ARBYS TAB GIDA", "MARMARA FORUM AVM TAKV."], "time": "01:00-02:30", "rating": 2}, {"id": 59, "day": "PERŞEMBE", "order": 5, "stops": ["BK01.00040 - CEVAHİR TAB GIDA", "AR01.00060 - CEVAHİR ARBYS TAB GIDA", "BK01.00728 - İSTANBUL ŞİŞLİ HUKUKÇULAR IL BK TAB GIDA"], "time": "22:00-00:00", "rating": 4}, {"id": 60, "day": "PERŞEMBE", "order": 6, "stops": ["BK01.00613 - ZORLU AVM BK TAB GIDA SAN.VE TİC.A.Ş", "PP01.00217 - İSTANBUL BEŞİKTAŞ ZORLU CENTER AVM FC PE TAB GIDA", "AR01.00050 - ZORLU CENTER ARBYS TAB GIDA", "UD01.00201 - İSTANBUL ZORLU CENTER UD TAB GIDA"], "time": "22:00-23:00", "rating": 5}, {"id": 61, "day": "PERŞEMBE", "order": 7, "stops": ["BK01.00871 - İSTANBUL GALATAPORT IL BK TAB GIDA", "PP01.00473 - İSTANBUL GALATAPORT AVM FC PE TAB GIDA", "BK01.00005 - SİRKECİ TAB GIDA"], "time": "22:00-01:00", "rating": 3}, {"id": 62, "day": "PERŞEMBE", "order": 8, "stops": ["BK02.00066 - BEMCO-2 (S.KÖY ARMONİPARK BK)", "PP01.00462 - İSTANBUL ESENLER DÖRTYOL IL PE TAB GIDA", "AR01.00191 - İSTANBUL ESENLER DÖRTYOL IL ARB TAB GIDA"], "time": "00:00-02:00", "rating": 2}, {"id": 63, "day": "PERŞEMBE", "order": 9, "stops": ["BK02.00397 - BEDİRLER OTO.-3(212 AVM BK FR)", "PP01.00044 - İSTANBUL BAĞCILAR 212 AVM FC PE TAB GIDA", "AR01.00181 - İSTANBUL İKİTELLİ 212 AVM FC ARB TAB GIDA", "UD01.00032 - İSTANBUL İKİTELLİ 212 AVM FC UD"], "time": "21:30-23:00", "rating": 5}, {"id": 64, "day": "PERŞEMBE", "order": 10, "stops": ["BK02.00484 - GLOBALTÜRK(İSTANBUL ESENYURT N MERKEZ AVM FC BK FR)", "PP02.00048 - GLOBALTÜRK-2(İST.ESENYURT N MERKEZ AVM FC PP FR)"], "time": "22:00-23:30", "rating": 5}, {"id": 65, "day": "PERŞEMBE", "order": 11, "stops": ["BK02.00372 - EKUR İNŞ.-2 (MARMARAPARK BK FR)", "AR01.00040 - BEYLİKDÜZÜ MARMARA PARK AVM ARBYS", "UD01.00223 - İSTANBUL MARMARAPARK AVM FC UD TAB GIDA"], "time": "22:00-23:30", "rating": 5}, {"id": 66, "day": "PERŞEMBE", "order": 12, "stops": ["BK01.00885 - İSTANBUL KAĞITHANE HAMİDİYE MAH.  IL BK TAB GIDA", "PP01.00490 - İSTANBUL KAĞITHANE HAMİDİYE MAH. IL PP TAB GIDA", "BK01.00783 - İSTANBUL SARIYER MEYDAN IL BK TAB GIDA"], "time": "Ekipli : 22:00-01:30 Ekipsiz:20:00-01:00", "rating": 2}, {"id": 67, "day": "PERŞEMBE", "order": 13, "stops": ["BK01.00315 - FULYA REAL AVM TAB GIDA", "PP01.00491 - İSTANBUL FULYA REAL(ANPA) AVM FC PE", "AR01.00201 - İSTANBUL FULYA REAL (ANPA) AVM FC ARBYS TAB GIDA", "SB01.00261 - İSTANBUL FULYA ANPA AVM FC SB TAB GIDA SAN VE TİC.A.Ş.", "UD01.00243 - İSTANBUL FULYA REAL (ANPA) AVM FC UD TAB GIDA"], "time": "23:30-01:00", "rating": 3}, {"id": 68, "day": "PERŞEMBE", "order": 14, "stops": ["BK02.00580 - BEŞİKTAŞ BİS GIDA ( İSTANBUL BEŞİKTAŞ IL BK FR)", "PP01.00451 - İSTANBUL BEŞİKTAŞ BARBAROS BUL.IL PE TAB GIDA", "SB02.00209 - İNCE NAKLİYE TURİZM İNŞ. GIDA (BEŞİKTAŞ BARBAROS BULVARI IL SB Aİ)"], "time": "01:00-03:00", "rating": 2}, {"id": 69, "day": "PERŞEMBE", "order": 15, "stops": ["BK02.00610 - ÖZZENGİN(ÇAĞLAYAN MEYDAN BK)", "PP01.00362 - İSTANBUL ÇAĞLAYAN ADLİYE IL PE TAB GIDA", "AR01.00155 - ÇAĞLAYAN ADLİYE İL ARBYS TAB GIDA"], "time": "23.30-01:00", "rating": 3}, {"id": 70, "day": "PERŞEMBE", "order": 16, "stops": ["BK01.00562 - DEMİRÖREN AVM BEYOĞLU BK TAB GIDA", "BK01.00027 - TAKSİM TAB GIDA", "FULYA REAL AVM TAKV."], "time": "Belirtilmemiş", "rating": null}, {"id": 71, "day": "PERŞEMBE", "order": 17, "stops": ["BK01.00015 - TARABYA  TAB GIDA", "BK01.00038 - İSTİNYE CARREFOUR BK TAB GIDA", "TEMPOINT VEGA AVM TAKV."], "time": "00:00-02:00", "rating": 2}, {"id": 72, "day": "PERŞEMBE", "order": 18, "stops": ["BK02.00711 - YILMER GIDA-7  (İSTANBUL ESENYURT ORHANGAZİ MAH. IL BK FR)", "BK02.00742 - GLOBALTÜRK-8  (İSTANBUL BEYLİKDÜZÜ DEMİR COUNTRY IL BK FR)", "PP01.00481 - İSTANBUL BEYLİKDÜZÜ DEMİR COUNTRY IL PE TAB GIDA"], "time": "23:30-00:00", "rating": 3}, {"id": 73, "day": "PERŞEMBE", "order": 19, "stops": ["BK01.00316 - TAKSİM FİTAŞ TAB GIDA", "PP01.00427- İSTANBUL TAKSİM FİTAŞ IL PE TAB GIDA"], "time": "saat 01:00-03:00", "rating": 1}, {"id": 74, "day": "PERŞEMBE", "order": 20, "stops": ["BK01.00454 - TRUMP TOWERS AVM ŞİŞLİ BK", "PP01.00168 - İSTANBUL ŞİŞLİ TRUMP TOWERS AVM FC PE TAB GIDA", "AR01.00042 - TRUMP TOWERS AVM ŞİŞLİ ARBYS", "BK01.00013 - MECİDİYEKÖY TAB GIDA", "PP01.00072 - İSTANBUL MECİDİYEKÖY IL PE TAB GIDA"], "time": "01:30-04:00", "rating": 1}, {"id": 75, "day": "PERŞEMBE", "order": 21, "stops": ["MECİDİYEKÖY BK + PP + UD TAKV.", "TRUMP TOWERS AVM TAKV."], "time": "Belirtilmemiş", "rating": null}, {"id": 76, "day": "PERŞEMBE", "order": 22, "stops": ["BK01.00775 - İSTANBUL TEMPOİNT VEGA AVM FC BK TAB GIDA", "PP01.00271 - İSTANBUL TEM POINT VEGA AVM FC PE TAB GIDA", "AR01.00135 - İSTANBUL TEMPOİNT VEGA AVM FC ARBYS TAB GIDA", "SB02.00212 - GÖKMEL GIDA-2 RESTORAN (İSTANBUL TEMPOİNT VEGA AVM FC SB Aİ)", "UD01.00185 - İSTANBUL TEMPOİNT VEGA AVM FC UD TAB GIDA"], "time": "01:30-03:00", "rating": 2}, {"id": 77, "day": "CUMA", "order": 4, "stops": ["BK02.00579 - ZHB GIDA(İST.BEYLİKDÜZÜ ADNAN KAHVECİ BUL.IL BK FR )", "PP02.00056 - ZHB-3(İSTANBUL BEYLİKDÜZÜ ADNAN KAHVECİ BUL.IL PE FR)", "SW02.00121 - ZHB-4 GIDA (İSTANBUL BEYLİKDÜZÜ ADNAN KAHVECİ BUL. IL SW)", "PP01.00108 - İSTANBUL BEYLİKDÜZÜ MARMARA PARK AVM FC PE TAB GIDA", "SB01.00125 - İSTANBUL BEYLİKDÜZÜ MARMARA PARK AVM FC SB TAB GIDA", "UP02.00000 - REKLAM ÜSSÜ(İSTANBUL MARMARAPARK AVM  FC UP )"], "time": "20:00-22:30", "rating": 4}, {"id": 78, "day": "CUMA", "order": 6, "stops": ["BK01.00731 - İSTANBUL EYÜP PARK AVM FC BK TAB GIDA", "SB01.00208 - İSTANBUL EYÜP PARK SB TAB GIDA", "UP01.00009 - İSTANBUL EYÜP PARK AVM FC UP TAB GIDA", "BK02.00263 - MOHSEN VE ASLAN GIDA (KÜÇÜKKÖY AYKUTOĞLU AVM BK)"], "time": "20:30-23:00", "rating": 4}, {"id": 79, "day": "CUMA", "order": 7, "stops": ["BK02.00199 - ARTA GIDA-2 (GÜNEŞLİ PARK AVM)", "BK01.00615 - BAĞCILAR MEYDAN BK TAB GIDA", "PP01.00450 - İSTANBUL BAĞCILAR MEYDAN2 IL PE TAB GIDA"], "time": "22:00-01:00", "rating": 5}, {"id": 80, "day": "CUMA", "order": 9, "stops": ["BK02.00214 - MOTEK GIDA (LEVENT ÖZDİLEK AVM BK)", "PP01.00135 - İSTANBUL LEVENT ÖZDİLEK AVM FC PE TAB GIDA", "AR01.00064 - LEVENT ÖZDİLEK ARBYS TAB GIDA", "SB02.00163 - BALPOY GIDA TURİZM (İSTANBUL LEVENT ÖZDİLEK AVM FC SB Aİ)"], "time": "22:00-00:00", "rating": 4}, {"id": 81, "day": "CUMA", "order": 10, "stops": ["BK02.00450 - AROZ GIDA (OKMEYDANI IL BK FR)", "PP01.00425 - İSTANBUL OKMEYDANI  IL PE TAB GIDA"], "time": "21:30-23:00", "rating": 3}, {"id": 82, "day": "CUMA", "order": 11, "stops": ["BK02.00154 - SERVETLER GIDA (SULTANGAZİ BK)", "BK01.00700 - SULTANGAZİ NEVA OUTLET AVM FC BK TAB"], "time": "21:00-23:30", "rating": 3}, {"id": 83, "day": "CUMA", "order": 12, "stops": ["PP01.00330 - İSTANBUL BAĞCILAR MEYDAN IL PE TAB GIDA", "AR01.00138 - İSTANBUL BAĞCILAR MEYDAN ARBY'S TAB GIDA", "UD01.00199 - İSTANBUL BAĞCILAR MEYDAN IL UD TAB GIDA"], "time": "22:00-23:30", "rating": 5}, {"id": 84, "day": "CUMA", "order": 13, "stops": ["BK01.00886 - İSTANBUL KÜÇÜKÇEKMECE HALKALI AVRUPAKENT IL BK TAB GIDA", "PP01.00445 - İST.KÜÇÜKÇEKMECE HALKALI AVRUPAKENT IL PE TAB GIDA", "BK01.00495 - SEFAKÖY MEYDAN BK TAB GIDA"], "time": "23:00-01:00", "rating": 1}, {"id": 85, "day": "CUMA", "order": 14, "stops": ["BK01.00762 - İSTANBUL MERTER REAL AVM FC BK TAB GIDA", "SB01.00258 - İSTANBUL MERTER REAL IL SB TAB GIDA", "PP01.00329 - İSTANBUL GÜNGÖREN PARK AVM IL PE TAB GIDA"], "time": "23:00-00:30", "rating": 3}, {"id": 86, "day": "CUMA", "order": 15, "stops": ["BK01.00030 - OLIVIUM CENTER TAB GIDA", "PP01.00208 - İSTANBUL ZEYTİNBURNU OLIVIUM AVM FC PE TAB GIDA", "AR01.00140 - İSTANBUL OLIVIUM AVM FC ARBYS TAB GIDA", "SB01.00252 - İSTANBUL OLİVİUM AVM FC SB TAB GIDA", "UD01.00233 - İSTANBUL OLİVİUM AVM FC UD TAB GIDA"], "time": "22:00-00:00", "rating": 4}, {"id": 87, "day": "CUMA", "order": 17, "stops": ["PP01.00128 - İSTANBUL İKİTELLİ MALL OF THE İSTANBUL AVM FC PE TAB GIDA", "AR01.00061 - MALL OF THE İSTANBUL ARBYS TAB GIDA", "BK01.00719 - İSTANBUL İKİTELLİ ORGANİZE SAN. IL BK TAB GIDA"], "time": "23:30-01:30", "rating": 4}, {"id": 88, "day": "CUMA", "order": 18, "stops": ["BK02.00116 - TMC-2 GIDA (ARTERIUM BK)", "PP01.00402 - BAŞAKŞEHİR ARTERIUM PE TAB GIDA", "BK01.00587 - CENNET DRIVE TRUE BK TAB GIDA"], "time": "23:30-01:30", "rating": 3}, {"id": 89, "day": "CUMA", "order": 19, "stops": ["BK02.00396 - BEDİRLER OTO.-2(FATİH BK BR)", "BK02.00281 - MERNUR GIDA-2 (ÇAPA BK)", "BK01.00883 - İSTANBUL BEYOĞLU KARAKÖY MUMHANE CD. IL BK TAB GIDA"], "time": "22:00-03:00", "rating": 0}, {"id": 90, "day": "CUMA", "order": 20, "stops": ["BK02.00698 - ALN GIDA-2(İST. BÜYÜKÇEKMECE KAMİLOBA IL BK FR)", "BK01.00289 - SİLİVRİ KİPA TAB GIDA", "PP01.00146 - SİLİVRİ KİPA PP TAB GIDA"], "time": "00:30-02:30", "rating": 2}, {"id": 91, "day": "CUMA", "order": 21, "stops": ["BK01.00034 - ŞİŞLİ DRIVE TAB GIDA", "PP01.00248 - İSTANBUL ŞİŞLİ BLACKOUT IL PE TAB GIDA", "BK02.00415 - SILA YATIRIM GIDA(ŞİŞLİ MEYDAN FR BK)"], "time": "23:30-01:30", "rating": 4}, {"id": 92, "day": "CUMA", "order": 22, "stops": ["BK01.00096 - SİLİVRİ TAB GIDA", "PP01.00488 - İSTANBUL SİLİVRİ MAXİ AVM PE FC TAB GIDA", "UD01.00241 - SİLİVRİ VEGA AVM FC UD TAB GIDA", "SİLİVRİ KİPA BK + PP TAKV."], "time": "01:00-03:30", "rating": 2}, {"id": 93, "day": "CUMA", "order": 23, "stops": ["BK01.00393 - MARMARA FORUM AVM B.KÖY TAB", "SB01.00085 - İSTANBUL BAKIRKÖY MARMARA FORUM AVM FC SB TAB GIDA", "UD02.00108 - İS RESTORAN VE GIDA ( İSTANBUL MARMARA FORUM AVM FC UD Aİ)", "BK01.00017 - İNCİRLİ TAB GIDA"], "time": "01:00-03:00", "rating": 2}, {"id": 94, "day": "CUMARTESİ", "order": 5, "stops": ["BK02.00677 - ADKAYA GIDA (İSTANBUL ISPARTAKULE BİZİM EVLER IL BK FR)", "PP02.00106 - ADKAYA GIDA-2 (İSTANBUL ISPARTAKULE BİZİM EVLER IL PE FR)", "PP01.00041 - İSTANBUL ŞİŞLİ CEVAHİR AVM FC PE TAB GIDA", "SB01.00002 - İSTANBUL ŞİŞLİ CEVAHİR AVM FC SB TAB GIDA"], "time": "18:30-23:30", "rating": 5}, {"id": 95, "day": "CUMARTESİ", "order": 6, "stops": ["BK02.00454 - TMC-5 GIDA (FORUM İST AVM FC FR BK)", "PP02.00031 - TMC-3 GIDA (FORUM İST AVM FC FR PE)", "ADKAYA GIDA (İSTANBUL ISPARTAKULE BİZİM EVLER IL BK + PP)"], "time": "21:30-23:00", "rating": 4}, {"id": 96, "day": "CUMARTESİ", "order": 7, "stops": ["BK02.00164 - BİRİKİM PET-BEŞYÜZEVLER B.PAŞA BK", "PP01.00075 - İSTANBUL İSTİKLAL AVM FC PE TAB GIDA", "AR01.00018 - İSTANBUL İSTİKLAL AVM ARBYS TAB GIDA"], "time": "21:00", "rating": 2}, {"id": 97, "day": "CUMARTESİ", "order": 8, "stops": ["BK02.00570 - AQUACİTY GIDA(İSTANBUL AQUA FLORYA AVM FC BK FR)", "PP01.00401 - İSTANBUL AQUA FLORYA AVM FC PE TAB", "BK01.00380 - TORIUM AVM ESENYURT TAB GIDA", "AR01.00011 - TORİUM AVM ESENYURT ARYBYS TAB"], "time": "21:30-00:30", "rating": 3}, {"id": 98, "day": "CUMARTESİ", "order": 9, "stops": ["BK02.00312 - TS GIDA REST. ( PELICAN AVM BK )", "PP01.00420 - İSTANBUL PELİCAN AVM FC PE TAB GIDA", "AR01.00182 - İSTANBUL PELİCAN AVM FC ARB TAB GIDA", "UD01.00229 - İSTANBUL PELİCAN AVM FC UD"], "time": "22:00-23:30", "rating": 5}, {"id": 99, "day": "CUMARTESİ", "order": 10, "stops": ["BK02.00697 - ALN GIDA (İSTANBUL PERLAVİSTA AVM FC BK FR)", "PP01.00064 - İSTANBUL BEYLİKDÜZÜ PERLAVISTA AVM FC PE TAB GIDA", "AR01.00089 - İSTANBUL PERLAVİSTA AVM FC ARBYS TAB GIDA", "UD01.00242 - İSTANBUL PERLAVİSTA AVM FC UD TAB GIDA"], "time": "22:00-23:30", "rating": 5}, {"id": 100, "day": "CUMARTESİ", "order": 11, "stops": ["BK02.00745 - CEF GLOBAL-2 (İSTANBUL ARNAVUTKÖY FLORENTIA VİLLAGE AVM FC BK)", "PP02.00138 - CEF GLOBAL-3 (İSTANBUL ARNAVUTKÖY FLORENTIA VİLLAGE AVM FC PE)", "SW02.00210 - CEF GLOBAL-1 (İSTANBUL ARNAVUTKÖY FLORENTIA VİLLAGE AVM FC SW)"], "time": "23:30-00:30", "rating": 3}, {"id": 101, "day": "CUMARTESİ", "order": 12, "stops": ["BK02.00085 - H-S TEKS.GIDA (İSTANBUL CAPACITY AVM FC BK FR)", "PP01.00035 - İSTANBUL BAKIRKÖY CAPACITY AVM FC PE TAB GIDA", "AR02.00016 - DUYGU ÇOLAK (İSTANBUL CAPACITY AVM FC AR Aİ)", "UD02.00151 - ZEMCET GIDA (İST.CAPACITY AVM FC UD TAB GIDA)"], "time": "22:00-23:30", "rating": 5}, {"id": 102, "day": "CUMARTESİ", "order": 13, "stops": ["BK02.00623 - YILMER GIDA-6 (İST.ARNAVUTKÖY FATİH CAD. IL BK FR)", "BK02.00545 - MEG LOJİSTİK-3(İST.KAYAŞEHİR MİLLET BAHÇESİ IL BK FR)", "PP02.00043 - MEG LOJİSTİK-2(İST.KAYAŞEHİR MİLLET BAHÇESİ IL PE)"], "time": "23:00-01:00", "rating": 3}, {"id": 103, "day": "CUMARTESİ", "order": 14, "stops": ["BK01.00620 - BAHÇEŞEHİR 3.CADDE BK TAB GIDA", "PP01.00416 - İSTANBUL BAHÇEŞEHİR 3.CAD.ŞEHRİ BAZAAR IL PE TAB GIDA.", "PP01.00446 - İSTANBUL BAHÇEŞEHİR STRADA IL PE TAB GIDA"], "time": "23:30-01:00", "rating": 4}, {"id": 104, "day": "CUMARTESİ", "order": 15, "stops": ["BK01.00498 - YENİBOSNA KOÇTAŞ BK TAB GIDA", "PP01.00291 - İSTANBUL YENİBOSNA KOÇTAŞ AVM FC PE TAB GIDA", "BK01.00093 - KADİRHAS CENTER TAB GIDA"], "time": "00:00-01:30", "rating": 4}, {"id": 105, "day": "CUMARTESİ", "order": 16, "stops": ["BK02.00408 - H-S TEKSTİL 4 (CAROUSEL AVM FC BK FR)", "PP01.00101 - CAROUSEL AVM POPEYES TAB GIDA", "AR01.00001 - CAROUSEL(B.KÖY) ARBYS TAB GIDA"], "time": "22:30-00:30", "rating": 4}, {"id": 106, "day": "CUMARTESİ", "order": 17, "stops": ["PP01.00317 - İST. B.HAYRETTİN PAŞA TRENDPARK IL PE TAB GIDA", "AR01.00129 - İST. B.HAYRETTİN PAŞA TRENDPARK IL ARBYS TAB GIDA", "BK01.00855 - İSTANBUL BAŞAKŞEHİR BAHÇEŞEHİR GÖLET IL BK TAB GIDA"], "time": "00:00-02:30", "rating": 3}, {"id": 107, "day": "CUMARTESİ", "order": 18, "stops": ["BK01.00756 - İSTANBUL BEYLİKDÜZÜ CUMHURİYET CAD.IL BK TAB", "PP01.00250 - İSTANBUL BEYLİKDÜZÜ CUMHURİYET CAD. IL PE TAB GIDA", "SKYPORT BK + PP TAKV."], "time": "23:00-00:30", "rating": 4}, {"id": 108, "day": "CUMARTESİ", "order": 19, "stops": ["BK02.00558- ALKENT(İSTANBUL BÜYÜKÇEKMECEDEMİR LAVİDA IL BK FR)", "PP02.00052 - ALKENT-2(İSTANBUL BÜYÜKÇEKMECE DEMİR LAVİDA IL PE FR)", "BK01.00321 - SKYPORT BEYLİKDÜZÜ TAB GIDA", "PP01.00298 - İSTANBUL SKYPORT IL PE TAB GIDA"], "time": "01:00-02:30", "rating": 3}, {"id": 109, "day": "CUMARTESİ", "order": 20, "stops": ["BK02.00721 - H-S TEKSTİL-6 GIDA  (ATAKÖY PLUS AVM FC BK)", "PP01.00166 - İSTANBUL ATAKÖY A-PLUS AVM FC PE TAB GIDA", "AR01.00069 - ATAKÖY A PLUS AVM ARBYS TAB GIDA"], "time": "01:00-02:30", "rating": 2}, {"id": 110, "day": "CUMARTESİ", "order": 21, "stops": ["BK01.00798 - İSTANBUL BEYLİKDÜZÜ FIRST AVENUE AVM FC BK TAB GIDA", "PP01.00292 - İSTANBUL BEYLİKDÜZÜ FIRST AVENUE AVM FC PE TAB GIDA", "UD02.00073 - FATİH YAZICI(İST.B.DÜZÜ FIRST AVENUE AVM FC UD Aİ)", "ALKENT BK + PP TAKV."], "time": "00:00-01:00", "rating": 4}];
+
+    let ROUTES_DATA = [];
+    const STORAGE_KEY = 'logix_custom_routes_v1';
+
+    async function loadAllRoutes() {
+      try {
+        const res = await fetch('/api/routes');
+        if (res.ok) {
+          ROUTES_DATA = await res.json();
+          document.getElementById('serverStatusText').textContent = `LOGIX.AI // NODE.JS SUNUCU AKTİF (${ROUTES_DATA.length} RUT)`;
+          return;
+        }
+      } catch (e) {
+        // Statik mod (GitHub Pages vb.)
+      }
+      let customRoutes = [];
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) customRoutes = JSON.parse(saved);
+      } catch (err) {}
+      ROUTES_DATA = [...customRoutes, ...FALLBACK_ROUTES];
+      document.getElementById('serverStatusText').textContent = `LOGIX.AI // STATİK MOD AKTİF (${ROUTES_DATA.length} RUT)`;
+    }
+
+    function getRatingMeta(rating) {
+      if (rating === null || rating === undefined) {
+        return { score: "-", label: "Belirtilmemiş", stars: 0 };
+      }
+      const map = {
+        5: { score: "5 / 5", label: "En İyi (Kusursuz)", stars: 5 },
+        4: { score: "4 / 5", label: "İyi (Akıcı)", stars: 4 },
+        3: { score: "3 / 5", label: "Ortalama (Standart)", stars: 3 },
+        2: { score: "2 / 5", label: "Ortalamanın Altı (Yoğun)", stars: 2 },
+        1: { score: "1 / 5", label: "Zorlu (Kritik)", stars: 1 },
+        0: { score: "0 / 5", label: "En Kötü (Darboğaz)", stars: 0 }
+      };
+      return map[rating] || { score: `${rating} / 5`, label: "Ortalama", stars: rating };
+    }
+
+    function normalizeTR(text) {
+      if (!text) return "";
+      return text
+        .toLocaleUpperCase('tr-TR')
+        .replace(/İ/g, 'I')
+        .replace(/İ/g, 'I')
+        .replace(/Ş/g, 'S')
+        .replace(/Ğ/g, 'G')
+        .replace(/Ü/g, 'U')
+        .replace(/Ö/g, 'O')
+        .replace(/Ç/g, 'C')
+        .trim();
+    }
+
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearBtn');
+    const suggestionsBox = document.getElementById('suggestionsBox');
+    const resultWrapper = document.getElementById('resultWrapper');
+    const truckLoader = document.getElementById('truckLoader');
+    const truckSprite = document.getElementById('truckSprite');
+
+    let currentMatches = [];
+    let activeDayIndex = 0;
+    let currentQueryText = "";
+
+    function findRoutes(query) {
+      const normQ = normalizeTR(query);
+      if (!normQ) return [];
+      return ROUTES_DATA.filter(route =>
+        route.stops.some(stop => normalizeTR(stop).includes(normQ))
+      );
+    }
+
+    function getStopSuggestions(query) {
+      const normQ = normalizeTR(query);
+      if (!normQ || normQ.length < 2) return [];
+      const uniqueStops = new Set();
+      for (const r of ROUTES_DATA) {
+        for (const s of r.stops) {
+          if (normalizeTR(s).includes(normQ)) {
+            uniqueStops.add(s);
+            if (uniqueStops.size >= 8) break;
+          }
+        }
+        if (uniqueStops.size >= 8) break;
+      }
+      return Array.from(uniqueStops);
+    }
+
+    function buildStarsHTML(starCount) {
+      let html = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= starCount) {
+          html += `<svg class="w-3.5 h-3.5 dark:text-lemon text-amber-500 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`;
+        } else {
+          html += `<svg class="w-3.5 h-3.5 dark:text-zinc-700 text-zinc-300 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`;
+        }
+      }
+      return html;
+    }
+
+    function buildInteractiveMapSVG(stops, normQ) {
+      const totalNodes = stops.length + 1;
+      const width = 900;
+      const height = 140;
+      const padX = 75;
+      const usableW = width - padX * 2;
+      const stepX = totalNodes > 1 ? usableW / (totalNodes - 1) : usableW;
+
+      const points = [];
+      for (let i = 0; i < totalNodes; i++) {
+        const x = Math.round(padX + i * stepX);
+        const y = i === 0 ? 75 : (i % 2 === 1 ? 46 : 96);
+        const isMatched = i > 0 && normQ && normalizeTR(stops[i - 1]).includes(normQ);
+        const rawLabel = i === 0 ? "ANA DEPO" : stops[i - 1];
+        const shortCode = i === 0 ? "DEPO" : (rawLabel.split('-')[0].trim().slice(0, 12));
+        points.push({ x, y, isDepot: i === 0, isMatched, index: i, shortCode, fullLabel: rawLabel });
+      }
+
+      let pathD = `M ${points[0].x} ${points[0].y}`;
+      for (let i = 1; i < points.length; i++) {
+        const prev = points[i - 1];
+        const curr = points[i];
+        const midX = (prev.x + curr.x) / 2;
+        pathD += ` C ${midX} ${prev.y}, ${midX} ${curr.y}, ${curr.x} ${curr.y}`;
+      }
+
+      let gridLines = '';
+      for (let gx = 60; gx < width; gx += 90) {
+        gridLines += `<line x1="${gx}" y1="0" x2="${gx}" y2="${height}" stroke="currentColor" stroke-width="0.6" class="dark:text-zinc-800/80 text-zinc-200" />`;
+      }
+      for (let gy = 28; gy < height; gy += 35) {
+        gridLines += `<line x1="0" y1="${gy}" x2="${width}" y2="${gy}" stroke="currentColor" stroke-width="0.6" class="dark:text-zinc-800/80 text-zinc-200" />`;
+      }
+
+      let nodesSVG = '';
+      points.forEach(pt => {
+        if (pt.isDepot) {
+          nodesSVG += `
+            <g transform="translate(${pt.x}, ${pt.y})">
+              <circle r="12" class="dark:fill-obsidian-900 fill-white stroke-2 dark:stroke-zinc-400 stroke-zinc-700"></circle>
+              <circle r="4.5" class="dark:fill-zinc-300 fill-zinc-800"></circle>
+              <text y="26" text-anchor="middle" class="font-mono text-[10px] font-bold dark:fill-zinc-400 fill-zinc-600">DEPO ÇIKIŞ</text>
+            </g>
+          `;
+        } else if (pt.isMatched) {
+          const labelY = pt.y < 70 ? -18 : 28;
+          nodesSVG += `
+            <g transform="translate(${pt.x}, ${pt.y})">
+              <circle r="10" fill="#E5FF00" class="radar-ping-circle"></circle>
+              <circle r="9" fill="#E5FF00" stroke="#090A0C" stroke-width="2.5"></circle>
+              <text y="${labelY}" text-anchor="middle" class="font-mono text-[10px] font-extrabold dark:fill-lemon fill-zinc-900">★ ${pt.index}. ${pt.shortCode}</text>
+            </g>
+          `;
+        } else {
+          const labelY = pt.y < 70 ? -16 : 25;
+          nodesSVG += `
+            <g transform="translate(${pt.x}, ${pt.y})">
+              <circle r="6.5" class="dark:fill-obsidian-800 fill-zinc-200 stroke-2 dark:stroke-lemon/60 stroke-zinc-600"></circle>
+              <text y="${labelY}" text-anchor="middle" class="font-mono text-[9.5px] font-semibold dark:fill-zinc-400 fill-zinc-600">${pt.index}. ${pt.shortCode}</text>
+            </g>
+          `;
+        }
+      });
+
+      return `
+        <div class="mt-4 pt-3 border-t dark:border-zinc-800/80 border-zinc-200/80">
+          <div class="flex items-center justify-between mb-1.5 px-1">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full dark:bg-lemon bg-zinc-900 animate-ping"></span>
+              <span class="text-[10px] font-mono uppercase tracking-widest dark:text-zinc-400 text-zinc-600 font-semibold">
+                AI CANLI GÜZERGAH HARİTA SİMÜLASYONU (SOLDAN SAĞA TELEMETRİ)
+              </span>
+            </div>
+            <span class="text-[10px] font-mono dark:text-lemon text-zinc-700 font-bold">
+              TOPLAM ${stops.length} DURAKLI ROTA
+            </span>
+          </div>
+          <div class="w-full rounded-xl dark:bg-obsidian-950/80 bg-zinc-100/90 border dark:border-zinc-800 border-zinc-200 overflow-hidden">
+            <svg viewBox="0 0 ${width} ${height}" class="w-full h-28 sm:h-32 block">
+              ${gridLines}
+              <path d="${pathD}" fill="none" stroke="currentColor" stroke-width="5" class="dark:text-zinc-800 text-zinc-300" stroke-linecap="round" />
+              <path d="${pathD}" fill="none" stroke="#E5FF00" stroke-width="2.5" class="map-route-active" stroke-linecap="round" />
+              <circle r="5" fill="#E5FF00">
+                <animateMotion dur="4.5s" repeatCount="indefinite" path="${pathD}" />
+              </circle>
+              ${nodesSVG}
+            </svg>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderActiveResult() {
+      if (!currentMatches.length) {
+        resultWrapper.innerHTML = `
+          <div class="glass-panel rounded-2xl p-6 text-center max-w-xl mx-auto">
+            <p class="text-sm font-semibold dark:text-zinc-200 text-zinc-800">Aradığınız kriterle eşleşen bir rut bulunamadı.</p>
+            <p class="text-xs dark:text-zinc-500 text-zinc-500 mt-1">Lütfen başka bir şube kodu veya AVM adı yazıp tekrar deneyin ya da sağ üstten yeni rut olarak ekleyin.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const activeRoute = currentMatches[activeDayIndex] || currentMatches[0];
+      const meta = getRatingMeta(activeRoute.rating);
+      const normQ = normalizeTR(currentQueryText);
+
+      let dayTabsHTML = '';
+      if (currentMatches.length > 1) {
+        dayTabsHTML = `
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-[11px] font-mono dark:text-zinc-400 text-zinc-500 mr-1">Sevkiyat Günleri:</span>
+            ${currentMatches.map((m, idx) => {
+              const isSelected = idx === activeDayIndex;
+              return `
+                <button
+                  type="button"
+                  onclick="switchDayTab(${idx})"
+                  class="px-3 py-1 rounded-lg font-mono text-xs font-bold transition-all cursor-pointer ${
+                    isSelected
+                      ? 'dark:bg-lemon dark:text-obsidian-950 bg-zinc-900 text-lemon shadow-sm'
+                      : 'dark:bg-obsidian-800 dark:text-zinc-400 bg-zinc-200 text-zinc-700 hover:opacity-80'
+                  }"
+                >
+                  ${m.day}
+                </button>
+              `;
+            }).join('')}
+          </div>
+        `;
+      } else {
+        dayTabsHTML = `
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg dark:bg-lemon/15 bg-zinc-900/10 dark:text-lemon text-zinc-900 font-mono text-xs font-bold">
+            <span>GÜN: ${activeRoute.day}</span>
+          </div>
+        `;
+      }
+
+      const stopsFlowHTML = activeRoute.stops.map((stopText, idx) => {
+        const isMatched = normQ && normalizeTR(stopText).includes(normQ);
+        const parts = stopText.split(' - ');
+        const codePart = parts.length > 1 ? parts[0].trim() : `${idx + 1}. NOKTA`;
+        const namePart = parts.length > 1 ? parts.slice(1).join(' - ').trim() : stopText;
+
+        const arrowSVG = `
+          <div class="hidden sm:flex items-center justify-center px-0.5 dark:text-zinc-600 text-zinc-400 shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        `;
+
+        return `
+          ${arrowSVG}
+          <div
+            class="flex-1 min-w-[165px] rounded-xl p-3 transition-all relative flex flex-col justify-between ${
+              isMatched
+                ? 'dark:bg-lemon/15 bg-lemon/30 border-2 dark:border-lemon border-zinc-900 shadow-lg'
+                : 'dark:bg-obsidian-800/95 bg-zinc-100 border dark:border-zinc-700/80 border-zinc-300'
+            }"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-1 mb-1.5">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+                  isMatched
+                    ? 'dark:bg-lemon dark:text-obsidian-950 bg-zinc-900 text-lemon'
+                    : 'dark:bg-obsidian-950 dark:text-zinc-300 bg-zinc-200 text-zinc-700'
+                }">
+                  ${idx + 1}. DURAK
+                </span>
+                ${
+                  isMatched
+                    ? `<span class="text-[10px] font-mono font-extrabold dark:text-lemon text-zinc-900 uppercase">● ARANAN NOKTA</span>`
+                    : `<span class="text-[10px] font-mono dark:text-zinc-400 text-zinc-500">${codePart}</span>`
+                }
+              </div>
+              <div class="text-xs font-bold leading-snug break-words ${
+                isMatched ? 'dark:text-white text-black' : 'dark:text-zinc-100 text-zinc-800'
+              }">
+                ${stopText}
+              </div>
+            </div>
+            <div class="mt-2 pt-1.5 border-t dark:border-white/10 border-black/10 flex items-center justify-between text-[10px] font-mono dark:text-zinc-400 text-zinc-600">
+              <span>SIRA: #0${idx + 1}</span>
+              <span>${namePart.slice(0, 18)}${namePart.length > 18 ? '...' : ''}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const mapSimulationHTML = buildInteractiveMapSVG(activeRoute.stops, normQ);
+
+      resultWrapper.innerHTML = `
+        <div class="glass-panel rounded-2xl p-4 sm:p-5 transition-all">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 mb-4 border-b dark:border-zinc-800 border-zinc-200">
+            ${dayTabsHTML}
+
+            <div class="flex flex-wrap items-center gap-2.5">
+              <div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl dark:bg-obsidian-800 bg-zinc-100 border dark:border-zinc-700/70 border-zinc-300">
+                <svg class="w-4 h-4 dark:text-lemon text-zinc-800 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <div>
+                  <div class="text-[10px] font-mono uppercase dark:text-zinc-400 text-zinc-500 leading-none">DEPO BAŞLANGIÇ SAATİ</div>
+                  <div class="text-xs sm:text-sm font-mono font-bold dark:text-white text-zinc-900 mt-0.5">${activeRoute.time}</div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl dark:bg-obsidian-800 bg-zinc-100 border dark:border-zinc-700/70 border-zinc-300">
+                <div>
+                  <div class="text-[10px] font-mono uppercase dark:text-zinc-400 text-zinc-500 leading-none">RUT DERECESİ</div>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs sm:text-sm font-mono font-extrabold dark:text-lemon text-zinc-900">${meta.score}</span>
+                    <span class="text-xs font-medium dark:text-zinc-300 text-zinc-700">• ${meta.label}</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-0.5 pl-1">
+                  ${buildStarsHTML(meta.stars)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-2 flex items-center justify-between">
+            <span class="text-[11px] font-mono uppercase tracking-wider dark:text-zinc-400 text-zinc-600">
+              SOLDAN SAĞA SEVKİYAT GÜZERGAHI (${activeRoute.stops.length} DURAK)
+            </span>
+            <span class="text-[11px] font-mono dark:text-lemon text-zinc-700 font-semibold">
+              Sarı Çerçeve = Aradığınız Nokta
+            </span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-stretch gap-2">
+            <div class="sm:w-28 shrink-0 rounded-xl p-3 dark:bg-obsidian-900 bg-zinc-200/80 border dark:border-zinc-800 border-zinc-300 flex flex-row sm:flex-col items-center justify-center gap-1.5 text-center">
+              <div class="w-8 h-8 rounded-lg dark:bg-lemon/15 bg-zinc-900/10 dark:text-lemon text-zinc-900 flex items-center justify-center">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[10px] font-mono font-bold dark:text-zinc-300 text-zinc-800">DEPO ÇIKIŞ</div>
+                <div class="text-[10px] font-mono dark:text-lemon text-zinc-700 font-semibold">${activeRoute.time.split(' ')[0]}</div>
+              </div>
+            </div>
+
+            ${stopsFlowHTML}
+          </div>
+
+          ${mapSimulationHTML}
+        </div>
+      `;
+    }
+
+    window.switchDayTab = function(idx) {
+      activeDayIndex = idx;
+      renderActiveResult();
+    };
+
+    function runSearchWithTruckAnimation(query) {
+      currentQueryText = query.trim();
+      if (!currentQueryText) {
+        resultWrapper.innerHTML = '';
+        return;
+      }
+
+      suggestionsBox.classList.add('hidden');
+      resultWrapper.innerHTML = '';
+      truckLoader.classList.remove('hidden');
+
+      truckSprite.classList.remove('animate-truck-drive');
+      void truckSprite.offsetWidth;
+      truckSprite.classList.add('animate-truck-drive');
+
+      setTimeout(() => {
+        truckLoader.classList.add('hidden');
+        currentMatches = findRoutes(currentQueryText);
+        activeDayIndex = 0;
+        renderActiveResult();
+      }, 480);
+    }
+
+    searchInput.addEventListener('input', (e) => {
+      const val = e.target.value;
+      clearBtn.classList.toggle('hidden', !val.length);
+
+      const sugs = getStopSuggestions(val);
+      if (sugs.length > 0) {
+        suggestionsBox.innerHTML = sugs.map(s => {
+          const safeStr = s.replace(/"/g, '&quot;');
+          return `
+            <button
+              type="button"
+              data-stop="${safeStr}"
+              class="suggestion-item w-full text-left px-4 py-2.5 text-xs sm:text-sm dark:text-zinc-200 text-zinc-800 hover:dark:bg-lemon hover:dark:text-obsidian-950 hover:bg-zinc-900 hover:text-lemon transition-colors flex items-center justify-between gap-2 cursor-pointer"
+            >
+              <span class="truncate font-medium">${s}</span>
+              <span class="text-[10px] font-mono uppercase opacity-75 shrink-0">Seç & Göster ↵</span>
+            </button>
+          `;
+        }).join('');
+        suggestionsBox.classList.remove('hidden');
+
+        suggestionsBox.querySelectorAll('.suggestion-item').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const picked = btn.getAttribute('data-stop');
+            searchInput.value = picked;
+            clearBtn.classList.remove('hidden');
+            runSearchWithTruckAnimation(picked);
+          });
+        });
+      } else {
+        suggestionsBox.classList.add('hidden');
+      }
+    });
+
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      runSearchWithTruckAnimation(searchInput.value);
+    });
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      clearBtn.classList.add('hidden');
+      suggestionsBox.classList.add('hidden');
+      resultWrapper.innerHTML = '';
+      searchInput.focus();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!searchForm.contains(e.target) && !suggestionsBox.contains(e.target)) {
+        suggestionsBox.classList.add('hidden');
+      }
+    });
+
+    // YENİ RUT EKLEME (Hem Node.js Backend'e hem LocalStorage'a kaydeder)
+    const addRouteModal = document.getElementById('addRouteModal');
+    const openAddModalBtn = document.getElementById('openAddModalBtn');
+    const closeAddModalBtn = document.getElementById('closeAddModalBtn');
+    const cancelAddModalBtn = document.getElementById('cancelAddModalBtn');
+    const addStopFieldBtn = document.getElementById('addStopFieldBtn');
+    const stopsInputsContainer = document.getElementById('stopsInputsContainer');
+    const addRouteForm = document.getElementById('addRouteForm');
+
+    function closeAddModal() {
+      addRouteModal.classList.add('hidden');
+    }
+
+    openAddModalBtn.addEventListener('click', () => {
+      addRouteModal.classList.remove('hidden');
+    });
+    closeAddModalBtn.addEventListener('click', closeAddModal);
+    cancelAddModalBtn.addEventListener('click', closeAddModal);
+
+    addStopFieldBtn.addEventListener('click', () => {
+      const currentCount = stopsInputsContainer.querySelectorAll('.stop-input').length;
+      const nextNum = currentCount + 1;
+      const row = document.createElement('div');
+      row.className = 'flex items-center gap-2';
+      row.innerHTML = `
+        <span class="text-xs font-mono font-bold dark:text-zinc-400 text-zinc-600 w-16 shrink-0">${nextNum}. Durak</span>
+        <input type="text" placeholder="${nextNum}. Durak noktasını girin" class="stop-input w-full rounded-xl px-3 py-2 text-xs dark:bg-obsidian-800 bg-zinc-100 dark:text-white text-zinc-900 border dark:border-zinc-700 border-zinc-300 focus:outline-none focus:border-lemon" />
+      `;
+      stopsInputsContainer.appendChild(row);
+    });
+
+    addRouteForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const day = document.getElementById('newRouteDay').value;
+      const time = document.getElementById('newRouteTime').value.trim();
+      const rating = parseInt(document.getElementById('newRouteRating').value, 10);
+
+      const stopInputs = Array.from(stopsInputsContainer.querySelectorAll('.stop-input'));
+      const stops = stopInputs.map(inp => inp.value.trim()).filter(Boolean);
+
+      if (stops.length === 0) return;
+
+      const payload = { day, time, rating, stops };
+
+      // 1. Önce Node.js sunucusuna POST etmeyi dene (routes.json'a kalıcı yazar)
+      let savedViaServer = false;
+      try {
+        const res = await fetch('/api/routes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          const data = await res.json();
+          ROUTES_DATA.unshift(data.route);
+          savedViaServer = true;
+          document.getElementById('serverStatusText').textContent = `LOGIX.AI // NODE.JS SUNUCU AKTİF (${ROUTES_DATA.length} RUT)`;
+        }
+      } catch (err) {
+        // Sunucu yoksa localStorage'a kaydet
+      }
+
+      if (!savedViaServer) {
+        const newRouteObj = {
+          id: Date.now(),
+          day,
+          order: 1,
+          stops,
+          time,
+          rating
+        };
+        ROUTES_DATA.unshift(newRouteObj);
+        try {
+          const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+          existing.unshift(newRouteObj);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+        } catch (err) {}
+      }
+
+      closeAddModal();
+      addRouteForm.reset();
+
+      searchInput.value = stops[0];
+      clearBtn.classList.remove('hidden');
+      runSearchWithTruckAnimation(stops[0]);
+    });
+
+    // Tema Değiştirici
+    const themeToggle = document.getElementById('themeToggle');
+    const themeText = document.getElementById('themeText');
+    themeToggle.addEventListener('click', () => {
+      const htmlEl = document.documentElement;
+      htmlEl.classList.toggle('dark');
+      const isDark = htmlEl.classList.contains('dark');
+      themeText.textContent = isDark ? 'Açık Tema' : 'Koyu Tema';
+    });
+
+    // Arka Plan Animasyonu
+    const canvas = document.getElementById('ai-logistics-canvas');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    let nodes = [];
+    let trucks = [];
+
+    function initScene() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+
+      const count = Math.min(26, Math.floor((w * h) / 48000));
+      nodes = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.28,
+        vy: (Math.random() - 0.5) * 0.28,
+        r: Math.random() * 1.8 + 1
+      }));
+
+      trucks = Array.from({ length: 5 }, (_, i) => ({
+        x: Math.random() * w,
+        y: (h / 6) * (i + 1),
+        speed: (Math.random() * 0.35 + 0.2) * (i % 2 === 0 ? 1 : -1)
+      }));
+    }
+
+    function drawTruckSilhouette(x, y, dir, color) {
+      ctx.save();
+      ctx.translate(x, y);
+      if (dir < 0) ctx.scale(-1, 1);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.2;
+      ctx.strokeRect(-22, -8, 26, 13);
+      ctx.beginPath();
+      ctx.moveTo(4, -5);
+      ctx.lineTo(13, -5);
+      ctx.lineTo(16, 0);
+      ctx.lineTo(16, 5);
+      ctx.lineTo(4, 5);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(-14, 7, 2.5, 0, Math.PI * 2);
+      ctx.arc(10, 7, 2.5, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function animateScene() {
+      ctx.clearRect(0, 0, w, h);
+      const isDark = document.documentElement.classList.contains('dark');
+
+      const nodeColor = isDark ? 'rgba(229, 255, 0, 0.20)' : 'rgba(24, 27, 33, 0.16)';
+      const lineColor = isDark ? 'rgba(229, 255, 0, 0.05)' : 'rgba(24, 27, 33, 0.05)';
+      const truckColor = isDark ? 'rgba(229, 255, 0, 0.11)' : 'rgba(24, 27, 33, 0.10)';
+
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = nodeColor;
+        ctx.fill();
+
+        for (let j = i + 1; j < nodes.length; j++) {
+          const m = nodes[j];
+          const dx = n.x - m.x;
+          const dy = n.y - m.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 165) {
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(m.x, m.y);
+            ctx.strokeStyle = lineColor;
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (const t of trucks) {
+        t.x += t.speed;
+        if (t.speed > 0 && t.x > w + 40) t.x = -40;
+        if (t.speed < 0 && t.x < -40) t.x = w + 40;
+        drawTruckSilhouette(t.x, t.y, t.speed, truckColor);
+      }
+
+      requestAnimationFrame(animateScene);
+    }
+
+    window.addEventListener('resize', initScene);
+    initScene();
+    animateScene();
+    loadAllRoutes();
+  </script>
+</body>
+</html>

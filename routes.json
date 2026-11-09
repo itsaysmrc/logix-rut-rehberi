@@ -1,0 +1,1356 @@
+[
+  {
+    "id": 1,
+    "day": "PAZARTESİ",
+    "order": 4,
+    "stops": [
+      "BK02.00372 - EKUR İNŞ.-2 (MARMARAPARK BK FR)",
+      "AR01.00040 - BEYLİKDÜZÜ MARMARA PARK AVM ARBYS",
+      "UD01.00223 - İSTANBUL MARMARAPARK AVM FC UD TAB GIDA"
+    ],
+    "time": "22:00 - 23:30/00:00",
+    "rating": 5
+  },
+  {
+    "id": 2,
+    "day": "PAZARTESİ",
+    "order": 5,
+    "stops": [
+      "BK01.00885 - İSTANBUL KAĞITHANE HAMİDİYE MAH.  IL BK TAB GIDA",
+      "PP01.00490 - İSTANBUL KAĞITHANE HAMİDİYE MAH. IL PP TAB GIDA",
+      "BK02.00386 - ŞENÇAĞ-3(İSTANBUL KAĞITHANE MERK. MAH.IL BK FR)"
+    ],
+    "time": "Ekipli : 22:00-00:30 Ekipsiz:20:00-23:00",
+    "rating": 4
+  },
+  {
+    "id": 3,
+    "day": "PAZARTESİ",
+    "order": 6,
+    "stops": [
+      "BK01.00613 - ZORLU AVM BK TAB GIDA",
+      "PP01.00217 - İSTANBUL BEŞİKTAŞ ZORLU CENTER AVM FC PE TAB GIDA",
+      "AR01.00050 - ZORLU CENTER ARBYS TAB GIDA",
+      "UD01.00201 - İSTANBUL ZORLU CENTER UD TAB GIDA"
+    ],
+    "time": "22:00 - 23:00",
+    "rating": 5
+  },
+  {
+    "id": 4,
+    "day": "PAZARTESİ",
+    "order": 7,
+    "stops": [
+      "BK01.00040 - CEVAHİR TAB GIDA",
+      "AR01.00060 - CEVAHİR ARBYS TAB GIDA"
+    ],
+    "time": "22:00 - 23:30",
+    "rating": 5
+  },
+  {
+    "id": 5,
+    "day": "PAZARTESİ",
+    "order": 8,
+    "stops": [
+      "BK01.00871 - İSTANBUL GALATAPORT IL BK TAB GIDA",
+      "PP01.00473 - İSTANBUL GALATAPORT AVM FC PE TAB GIDA",
+      "BK01.00005 - SİRKECİ TAB GIDA"
+    ],
+    "time": "22:00 -01:00",
+    "rating": 3
+  },
+  {
+    "id": 6,
+    "day": "PAZARTESİ",
+    "order": 9,
+    "stops": [
+      "BK02.00397 - BEDİRLER OTO.-3(212 AVM BK FR)",
+      "PP01.00044 - İSTANBUL BAĞCILAR 212 AVM FC PE TAB GIDA",
+      "AR01.00181 - İSTANBUL İKİTELLİ 212 AVM FC ARB TAB GIDA",
+      "UD01.00032 - İSTANBUL İKİTELLİ 212 AVM FC UD"
+    ],
+    "time": "21:30-23:00",
+    "rating": 5
+  },
+  {
+    "id": 7,
+    "day": "PAZARTESİ",
+    "order": 10,
+    "stops": [
+      "BK02.00484 - GLOBALTÜRK(İSTANBUL ESENYURT N MERKEZ AVM FC BK FR)",
+      "PP02.00048 - GLOBALTÜRK-2(İST.ESENYURT N MERKEZ AVM FC PP FR)"
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 8,
+    "day": "PAZARTESİ",
+    "order": 11,
+    "stops": [
+      "BK01.00728 - İSTANBUL ŞİŞLİ HUKUKÇULAR IL BK TAB GIDA",
+      "BK01.00315 - FULYA REAL AVM TAB GIDA",
+      "ZORLU CENTER AVM TAKV."
+    ],
+    "time": "23:30-01:00",
+    "rating": 2
+  },
+  {
+    "id": 9,
+    "day": "PAZARTESİ",
+    "order": 12,
+    "stops": [
+      "PP01.00462 - İSTANBUL ESENLER DÖRTYOL IL PE TAB GIDA",
+      "AR01.00191 - İSTANBUL ESENLER DÖRTYOL IL ARB TAB GIDA",
+      "212 AVM TAKV."
+    ],
+    "time": "00:00-01:00",
+    "rating": 3
+  },
+  {
+    "id": 10,
+    "day": "PAZARTESİ",
+    "order": 13,
+    "stops": [
+      "BK01.00598 - ZEKERİYAKÖY BK TAB GIDA",
+      "PP01.00413 - ZEKERİYAKÖY IL PP  TAB GIDA",
+      "BK01.00015 - TARABYA  TAB GIDA"
+    ],
+    "time": "22:30-01:30",
+    "rating": 2
+  },
+  {
+    "id": 11,
+    "day": "PAZARTESİ",
+    "order": 14,
+    "stops": [
+      "PP01.00491 - İSTANBUL FULYA REAL(ANPA) AVM FC PE",
+      "AR01.00201 - İSTANBUL FULYA REAL (ANPA) AVM FC ARBYS TAB GIDA",
+      "SB01.00261 - İSTANBUL FULYA ANPA AVM FC SB TAB GIDA SAN VE TİC.A.Ş.",
+      "UD01.00243 - İSTANBUL FULYA REAL (ANPA) AVM FC UD TAB GIDA"
+    ],
+    "time": "23:30-01:30",
+    "rating": 3
+  },
+  {
+    "id": 12,
+    "day": "PAZARTESİ",
+    "order": 15,
+    "stops": [
+      "BK02.00580 - BEŞİKTAŞ BİS GIDA ( İSTANBUL BEŞİKTAŞ IL BK FR)",
+      "PP01.00451 - İSTANBUL BEŞİKTAŞ BARBAROS BUL.IL PE TAB GIDA",
+      "SB02.00209 - İNCE NAKLİYE TURİZM İNŞ. GIDA (BEŞİKTAŞ BARBAROS BULVARI IL SB Aİ)"
+    ],
+    "time": "01:00-03:00",
+    "rating": 3
+  },
+  {
+    "id": 13,
+    "day": "PAZARTESİ",
+    "order": 16,
+    "stops": [
+      "PP01.00437 - İSTANBUL ŞİŞLİ HALASKARGAZİ CAD. IL PE TAB GIDA",
+      "BK01.00027 - TAKSİM TAB GIDA"
+    ],
+    "time": "00:00-03:00",
+    "rating": 2
+  },
+  {
+    "id": 14,
+    "day": "PAZARTESİ",
+    "order": 17,
+    "stops": [
+      "BK01.00562 - DEMİRÖREN AVM BEYOĞLU BK TAB GIDA",
+      "SB02.00156 - ARFES GIDA (İSTANBUL İSTİKLAL AVM FC SB Aİ)",
+      "BK01.00696 - İSTANBUL FINDIKZADE IL BK TAB GIDA"
+    ],
+    "time": "00:00-03:30",
+    "rating": 1
+  },
+  {
+    "id": 15,
+    "day": "PAZARTESİ",
+    "order": 18,
+    "stops": [
+      "BK02.00610 - ÖZZENGİN(ÇAĞLAYAN MEYDAN BK)",
+      "PP01.00362 - İSTANBUL ÇAĞLAYAN ADLİYE IL PE TAB GIDA",
+      "AR01.00155 - ÇAĞLAYAN ADLİYE İL ARBYS TAB GIDA"
+    ],
+    "time": "23:30-01:00",
+    "rating": 3
+  },
+  {
+    "id": 16,
+    "day": "PAZARTESİ",
+    "order": 19,
+    "stops": [
+      "BK01.00038 - İSTİNYE CARREFOUR BK TAB GIDA",
+      "TARABYA BK TAKV.",
+      "TEMPOINT VEGA AVM TAKV."
+    ],
+    "time": "00:00-00:30",
+    "rating": 3
+  },
+  {
+    "id": 17,
+    "day": "PAZARTESİ",
+    "order": 20,
+    "stops": [
+      "BK02.00711 - YILMER GIDA-7  (İSTANBUL ESENYURT ORHANGAZİ MAH. IL BK FR)",
+      "BK02.00742 - GLOBALTÜRK-8 (İSTANBUL BEYLİKDÜZÜ DEMİR COUNTRY IL BK FR)",
+      "PP01.00481 - İSTANBUL BEYLİKDÜZÜ DEMİR COUNTRY IL PE TAB GIDA"
+    ],
+    "time": "23:30-01:30",
+    "rating": 3
+  },
+  {
+    "id": 18,
+    "day": "PAZARTESİ",
+    "order": 21,
+    "stops": [
+      "BK01.00013 - MECİDİYEKÖY TAB GIDA",
+      "PP01.00072 - İSTANBUL MECİDİYEKÖY IL PE TAB GIDA",
+      "UD01.00084 - İSTANBUL MECİDİYEKÖY IL UD TAB GIDA",
+      "TRUMP TOWERS AVM TAKV."
+    ],
+    "time": "02:00-03:30",
+    "rating": 3
+  },
+  {
+    "id": 19,
+    "day": "PAZARTESİ",
+    "order": 22,
+    "stops": [
+      "BK01.00316 - TAKSİM FİTAŞ TAB GIDA",
+      "PP01.00427- İSTANBUL TAKSİM FİTAŞ IL PE TAB GIDA"
+    ],
+    "time": "01:00-03:00",
+    "rating": 1
+  },
+  {
+    "id": 20,
+    "day": "PAZARTESİ",
+    "order": 23,
+    "stops": [
+      "BK01.00775 - İSTANBUL TEMPOİNT VEGA AVM FC BK TAB GIDA",
+      "PP01.00271 - İSTANBUL TEM POINT VEGA AVM FC PE TAB GIDA",
+      "AR01.00135 - İSTANBUL TEMPOİNT VEGA AVM FC ARBYS TAB GIDA",
+      "SB02.00212 - GÖKMEL GIDA-2 RESTORAN (İSTANBUL TEMPOİNT VEGA AVM FC SB Aİ)",
+      "UD01.00185 - İSTANBUL TEMPOİNT VEGA AVM FC UD TAB GIDA"
+    ],
+    "time": "01:30-03:30",
+    "rating": 3
+  },
+  {
+    "id": 21,
+    "day": "SALI",
+    "order": 4,
+    "stops": [
+      "BK02.00579 - ZHB GIDA(İST.BEYLİKDÜZÜ ADNAN KAHVECİ BUL.IL BK FR )",
+      "PP02.00056 - ZHB-3(İSTANBUL BEYLİKDÜZÜ ADNAN KAHVECİ BUL.IL PE FR)",
+      "SW02.00121 - ZHB-4 GIDA (İSTANBUL BEYLİKDÜZÜ ADNAN KAHVECİ BUL. IL SW)",
+      "BK02.00198 - KAR RESTORAN (AKBATI AVM)"
+    ],
+    "time": "19:00-21:30",
+    "rating": 5
+  },
+  {
+    "id": 22,
+    "day": "SALI",
+    "order": 5,
+    "stops": [
+      "BK01.00731 - İSTANBUL EYÜP PARK AVM FC BK TAB GIDA",
+      "SB01.00208 - İSTANBUL EYÜP PARK SB TAB GIDA",
+      "UP01.00009 - İSTANBUL EYÜP PARK AVM FC UP TAB GIDA",
+      "BK02.00739 - ADN GROUP (İSTANBUL GAZİOSMANPAŞA CADDE TEM AVM FC BK FR)",
+      "UD01.00247 - İSTANBUL GAZİOSMANPAŞA CADDE TEM AVM UD TAB GIDA"
+    ],
+    "time": "22:00-01:00",
+    "rating": 4
+  },
+  {
+    "id": 23,
+    "day": "SALI",
+    "order": 6,
+    "stops": [
+      "BK02.00199 - ARTA GIDA-2 (GÜNEŞLİ PARK AVM)",
+      "BK01.00615 - BAĞCILAR MEYDAN BK TAB GIDA",
+      "PP01.00450 - İSTANBUL BAĞCILAR MEYDAN2 IL PE TAB GIDA"
+    ],
+    "time": "22:00-00:30",
+    "rating": 3
+  },
+  {
+    "id": 24,
+    "day": "SALI",
+    "order": 7,
+    "stops": [
+      "PP01.00330 - İSTANBUL BAĞCILAR MEYDAN IL PE TAB GIDA",
+      "AR01.00138 - İSTANBUL BAĞCILAR MEYDAN ARBY'S TAB GIDA",
+      "UD01.00199 - İSTANBUL BAĞCILAR MEYDAN IL UD TAB GIDA"
+    ],
+    "time": "22:00-23:00",
+    "rating": 5
+  },
+  {
+    "id": 25,
+    "day": "SALI",
+    "order": 8,
+    "stops": [
+      "BK02.00450 - AROZ GIDA (OKMEYDANI IL BK FR)",
+      "PP01.00425 - İSTANBUL OKMEYDANI  IL PE TAB GIDA"
+    ],
+    "time": "21:00-23:00",
+    "rating": 5
+  },
+  {
+    "id": 26,
+    "day": "SALI",
+    "order": 9,
+    "stops": [
+      "BK02.00214 - MOTEK GIDA (LEVENT ÖZDİLEK AVM BK)",
+      "PP01.00135 - İSTANBUL LEVENT ÖZDİLEK AVM FC PE TAB GIDA",
+      "AR01.00064 - LEVENT ÖZDİLEK ARBYS TAB GIDA",
+      "SB02.00163 - BALPOY GIDA TURİZM (İSTANBUL LEVENT ÖZDİLEK AVM FC SB Aİ)",
+      "UD02.00163 - BALPOY GIDA VE TURİZM (İSTANBUL LEVENT ÖZDİLEK AVM FC UD Aİ)"
+    ],
+    "time": "22:00-00:00",
+    "rating": 5
+  },
+  {
+    "id": 27,
+    "day": "SALI",
+    "order": 10,
+    "stops": [
+      "BK02.00154 - SERVETLER GIDA (SULTANGAZİ BK)",
+      "BK01.00700 - SULTANGAZİ NEVA OUTLET AVM FC BK TAB"
+    ],
+    "time": "21:30-23:00",
+    "rating": 4
+  },
+  {
+    "id": 28,
+    "day": "SALI",
+    "order": 11,
+    "stops": [
+      "PP01.00066 - İSTANBUL ESENYURT TORIUM AVM FC PE TAB GIDA",
+      "SB02.00174 - MORDEM GIDA (İST.TORIUM AVM FC SB Aİ)",
+      "BK01.00495 - SEFAKÖY MEYDAN BK TAB GIDA"
+    ],
+    "time": "22:30-01:00",
+    "rating": 3
+  },
+  {
+    "id": 29,
+    "day": "SALI",
+    "order": 12,
+    "stops": [
+      "PP01.00108 - İSTANBUL BEYLİKDÜZÜ MARMARA PARK AVM FC PE TAB GIDA",
+      "SB01.00125 - İSTANBUL BEYLİKDÜZÜ MARMARA PARK AVM FC SB TAB GIDA",
+      "UP02.00000 - REKLAM ÜSSÜ(İSTANBUL MARMARAPARK AVM  FC UP )"
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 30,
+    "day": "SALI",
+    "order": 13,
+    "stops": [
+      "BK01.00034 - ŞİŞLİ DRIVE TAB GIDA",
+      "PP01.00248 - İSTANBUL ŞİŞLİ BLACKOUT IL PE TAB GIDA",
+      "LEVENT ÖZDİLEK AVM TAKV."
+    ],
+    "time": "23:30-00:30",
+    "rating": 4
+  },
+  {
+    "id": 31,
+    "day": "SALI",
+    "order": 14,
+    "stops": [
+      "BK01.00030 - OLIVIUM CENTER TAB GIDA",
+      "PP01.00208 - İSTANBUL ZEYTİNBURNU OLIVIUM AVM FC PE TAB GIDA",
+      "AR01.00140 - İSTANBUL OLIVIUM AVM FC ARBYS TAB GIDA",
+      "SB01.00252 - İSTANBUL OLİVİUM AVM FC SB TAB GIDA",
+      "UD01.00233 - İSTANBUL OLIVIUM AVM FC UD TAB GIDA"
+    ],
+    "time": "22:00-02:00",
+    "rating": 3
+  },
+  {
+    "id": 32,
+    "day": "SALI",
+    "order": 15,
+    "stops": [
+      "BK01.00595 - MALL OF THE İSTANBUL BK TAB GIDA",
+      "PP01.00128 - İSTANBUL İKİTELLİ MALL OF THE İSTANBUL AVM FC PE TAB GIDA",
+      "AR01.00061 - MALL OF THE İSTANBUL ARBYS TAB GIDA",
+      "BK01.00719 - İSTANBUL İKİTELLİ ORGANİZE SAN. IL BK TAB GIDA"
+    ],
+    "time": "23:30-01:30",
+    "rating": 3
+  },
+  {
+    "id": 33,
+    "day": "SALI",
+    "order": 16,
+    "stops": [
+      "BK01.00762 - İSTANBUL MERTER REAL AVM FC BK TAB GIDA",
+      "SB01.00258 - İSTANBUL MERTER REAL IL SB TAB GIDA",
+      "OLIVIUM AVM TAKV."
+    ],
+    "time": "23:30-00:00",
+    "rating": 4
+  },
+  {
+    "id": 34,
+    "day": "SALI",
+    "order": 17,
+    "stops": [
+      "BK01.00290 - MİMAROBA TAB GIDA",
+      "AR01.00198 - İSTANBUL BÜYÜKÇEKMECE MİMAROBA ARB TAB GIDA"
+    ],
+    "time": "00:00-01:00",
+    "rating": 5
+  },
+  {
+    "id": 35,
+    "day": "SALI",
+    "order": 18,
+    "stops": [
+      "BK01.00431 - HALKALI ARENA PARK AVM BK TAB",
+      "PP01.00088 - İSTANBUL KÜÇÜKÇEKMECE ARENA PARK AVM FC PE TAB GIDA",
+      "UD01.00057 - HALKALI ARENA PARK AVM UD TAB GIDA",
+      "BK01.00886 - İSTANBUL KÜÇÜKÇEKMECE HALKALI AVRUPAKENT IL BK TAB GIDA",
+      "PP01.00445 - İST.KÜÇÜKÇEKMECE HALKALI AVRUPAKENT IL PE TAB GIDA"
+    ],
+    "time": "00:00-02:00",
+    "rating": 2
+  },
+  {
+    "id": 36,
+    "day": "SALI",
+    "order": 19,
+    "stops": [
+      "BK02.00396 - BEDİRLER OTO.-2(FATİH BK BR)",
+      "BK02.00281 - MERNUR GIDA-2 (ÇAPA BK)",
+      "BK01.00883 - İSTANBUL BEYOĞLU KARAKÖY MUMHANE CD. IL BK TAB GIDA"
+    ],
+    "time": "22:00-03:00",
+    "rating": 0
+  },
+  {
+    "id": 37,
+    "day": "SALI",
+    "order": 20,
+    "stops": [
+      "BK02.00116 - TMC-2 GIDA (ARTERIUM BK)",
+      "PP01.00402 - BAŞAKŞEHİR ARTERIUM PE TAB GIDA",
+      "BK01.00587 - CENNET DRIVE TRUE BK TAB GIDA"
+    ],
+    "time": "23:30-01:30",
+    "rating": 3
+  },
+  {
+    "id": 38,
+    "day": "SALI",
+    "order": 21,
+    "stops": [
+      "BK02.00698 - ALN GIDA-2(İST. BÜYÜKÇEKMECE KAMİLOBA IL BK FR)",
+      "BK01.00289 - SİLİVRİ KİPA TAB GIDA",
+      "PP01.00146 - SİLİVRİ KİPA PP TAB GIDA"
+    ],
+    "time": "00:30-02:30",
+    "rating": 2
+  },
+  {
+    "id": 39,
+    "day": "SALI",
+    "order": 22,
+    "stops": [
+      "BK02.00415 - SILA YATIRIM GIDA(ŞİŞLİ MEYDAN FR BK)",
+      "BK02.00313 - TS GIDA REST. - 2 (TAKSİM BK-3)İŞLETM."
+    ],
+    "time": "01:00-03:00",
+    "rating": 2
+  },
+  {
+    "id": 40,
+    "day": "SALI",
+    "order": 23,
+    "stops": [
+      "BK01.00393 - MARMARA FORUM AVM B.KÖY TAB",
+      "SB01.00085 - İSTANBUL BAKIRKÖY MARMARA FORUM AVM FC SB TAB GIDA",
+      "UD02.00108 - İS RESTORAN VE GIDA ( İSTANBUL MARMARA FORUM AVM FC UD Aİ)",
+      "BK01.00017 - İNCİRLİ TAB GIDA"
+    ],
+    "time": "01:00-03:00",
+    "rating": 2
+  },
+  {
+    "id": 41,
+    "day": "ÇARŞAMBA",
+    "order": 5,
+    "stops": [
+      "BK02.00677 - ADKAYA GIDA (İSTANBUL ISPARTAKULE BİZİM EVLER IL BK FR)",
+      "PP02.00106 - ADKAYA GIDA-2 (İSTANBUL ISPARTAKULE BİZİM EVLER IL PE FR)",
+      "PP01.00228 - İSTANBUL EYÜP PARK AVM FC PE TAB GIDA"
+    ],
+    "time": "18:30-22:30",
+    "rating": 5
+  },
+  {
+    "id": 42,
+    "day": "ÇARŞAMBA",
+    "order": 6,
+    "stops": [
+      "PP01.00041 - İSTANBUL ŞİŞLİ CEVAHİR AVM FC PE TAB GIDA",
+      "SB01.00002 - İSTANBUL ŞİŞLİ CEVAHİR AVM FC SB TAB GIDA",
+      "ADKAYA GIDA (İSTANBUL ISPARTAKULE BİZİM EVLER IL BK + PP)"
+    ],
+    "time": "22:0-23:30",
+    "rating": 5
+  },
+  {
+    "id": 43,
+    "day": "ÇARŞAMBA",
+    "order": 7,
+    "stops": [
+      "BK02.00728 - CAPO RESTORAN VE GIDA (İSTANBUL VENEZIA VIAPORT AVM BK FR)",
+      "BK02.00164 - BİRİKİM PET-BEŞYÜZEVLER B.PAŞA BK"
+    ],
+    "time": "20:30-22:30",
+    "rating": 5
+  },
+  {
+    "id": 44,
+    "day": "ÇARŞAMBA",
+    "order": 8,
+    "stops": [
+      "BK01.00682 - EYÜP VİALAND TEMAPARK BK TAB GIDA",
+      "PP01.00453 - İSTANBUL KAĞITHANE SEBA SUİT IL PE TAB GIDA",
+      "PP01.00475 - İSTANBUL KAĞITHANE SULTAN SELİM MAH. IL PE TAB"
+    ],
+    "time": "22:30-01:30",
+    "rating": 2
+  },
+  {
+    "id": 45,
+    "day": "ÇARŞAMBA",
+    "order": 9,
+    "stops": [
+      "BK02.00570 - AQUACİTY GIDA(İSTANBUL AQUA FLORYA AVM FC BK FR)",
+      "PP01.00401 - İSTANBUL AQUA FLORYA AVM FC PE TAB",
+      "PERLAVISTA AVM TAKV."
+    ],
+    "time": "22:00-23:00",
+    "rating": 5
+  },
+  {
+    "id": 46,
+    "day": "ÇARŞAMBA",
+    "order": 10,
+    "stops": [
+      "BK02.00312 - TS GIDA REST. ( PELICAN AVM BK )",
+      "PP01.00420 - İSTANBUL PELİCAN AVM FC PE TAB GIDA",
+      "AR01.00182 - İSTANBUL PELİCAN AVM FC ARB TAB GIDA",
+      "UD01.00229 - İSTANBUL PELİCAN AVM FC UD"
+    ],
+    "time": "22:00-23:00",
+    "rating": 5
+  },
+  {
+    "id": 47,
+    "day": "ÇARŞAMBA",
+    "order": 11,
+    "stops": [
+      "BK02.00697 - ALN GIDA (İSTANBUL PERLAVİSTA AVM FC BK FR)",
+      "PP01.00064 - İSTANBUL BEYLİKDÜZÜ PERLAVISTA AVM FC PE TAB GIDA",
+      "AR01.00089 - İSTANBUL PERLAVİSTA AVM FC ARBYS TAB GIDA",
+      "UD01.00242 - İSTANBUL PERLAVİSTA AVM FC UD TAB GIDA"
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 48,
+    "day": "ÇARŞAMBA",
+    "order": 12,
+    "stops": [
+      "BK01.00899 - İSTANBUL BAŞAKŞEHİR SULAR VADİSİ IL BK TAB GIDA",
+      "BK02.00545 - MEG LOJİSTİK-3(İST.KAYAŞEHİR MİLLET BAHÇESİ IL BK FR)",
+      "PP02.00043 - MEG LOJİSTİK-2(İST.KAYAŞEHİR MİLLET BAHÇESİ IL PE)"
+    ],
+    "time": "22:00-00:00",
+    "rating": 3
+  },
+  {
+    "id": 49,
+    "day": "ÇARŞAMBA",
+    "order": 13,
+    "stops": [
+      "PP01.00075 - İSTANBUL İSTİKLAL AVM FC PE TAB GIDA",
+      "AR01.00018 - İSTANBUL İSTİKLAL AVM ARBYS TAB GIDA",
+      "CAPO RESTORAN VE GIDA (VENEZIA VIAPORT AVM BK FR) TAKV."
+    ],
+    "time": "23:30-02:00",
+    "rating": 2
+  },
+  {
+    "id": 50,
+    "day": "ÇARŞAMBA",
+    "order": 14,
+    "stops": [
+      "BK01.00380 - TORIUM AVM ESENYURT TAB GIDA",
+      "AR01.00011 - TORIUM AVM ESENYURT ARYBYS TAB",
+      "PELICAN AVM TAKV."
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 51,
+    "day": "ÇARŞAMBA",
+    "order": 15,
+    "stops": [
+      "BK02.00085 - H-S TEKS.GIDA (İSTANBUL CAPACITY AVM FC BK FR)",
+      "PP01.00035 - İSTANBUL BAKIRKÖY CAPACITY AVM FC PE TAB GIDA",
+      "AR02.00016 - DUYGU ÇOLAK (İSTANBUL CAPACITY AVM FC AR Aİ)",
+      "UD02.00151 - ZEMCET GIDA (İST.CAPACITY AVM FC UD TAB GIDA)",
+      "CAROUSEL AVM TAKV."
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 52,
+    "day": "ÇARŞAMBA",
+    "order": 16,
+    "stops": [
+      "BK01.00756 - İSTANBUL BEYLİKDÜZÜ CUMHURİYET CAD.IL BK TAB",
+      "PP01.00250 - İSTANBUL BEYLİKDÜZÜ CUMHURİYET CAD. IL PE TAB GIDA",
+      "BK01.00426 - BEYLİKDÜZÜ WHITE CORNER BK TAB",
+      "AR01.00195 - İSTANBUL WHITE CORNER IL ARB  TAB GIDA"
+    ],
+    "time": "23:30-01:00",
+    "rating": 2
+  },
+  {
+    "id": 53,
+    "day": "ÇARŞAMBA",
+    "order": 17,
+    "stops": [
+      "BK01.00620 - BAHÇEŞEHİR 3.CADDE BK TAB GIDA",
+      "PP01.00416 - İSTANBUL BAHÇEŞEHİR 3.CAD.ŞEHRİ BAZAAR IL PE TAB GIDA.",
+      "BK01.00855 - İSTANBUL BAŞAKŞEHİR BAHÇEŞEHİR GÖLET IL BK TAB GIDA"
+    ],
+    "time": "23:30-01:00",
+    "rating": 4
+  },
+  {
+    "id": 54,
+    "day": "ÇARŞAMBA",
+    "order": 18,
+    "stops": [
+      "BK01.00498 - YENİBOSNA KOÇTAŞ BK TAB GIDA",
+      "PP01.00291 - İSTANBUL YENİBOSNA KOÇTAŞ AVM FC PE TAB GIDA",
+      "BK01.00093 - KADİRHAS CENTER TAB GIDA"
+    ],
+    "time": "00:30-01:30",
+    "rating": 2
+  },
+  {
+    "id": 55,
+    "day": "ÇARŞAMBA",
+    "order": 19,
+    "stops": [
+      "BK02.00408 - H-S TEKSTİL 4 (CAROUSEL AVM FC BK FR)",
+      "PP01.00101 - CAROUSEL AVM POPEYES TAB GIDA",
+      "AR01.00001 - CAROUSEL(B.KÖY) ARBYS TAB GIDA"
+    ],
+    "time": "22:30-00:30",
+    "rating": 4
+  },
+  {
+    "id": 56,
+    "day": "ÇARŞAMBA",
+    "order": 21,
+    "stops": [
+      "PP01.00317 - İST. B.HAYRETTİN PAŞA TRENDPARK IL PE TAB GIDA",
+      "AR01.00129 - İST. B.HAYRETTİN PAŞA TRENDPARK IL ARBYS TAB GIDA",
+      "PP01.00446 - İSTANBUL BAHÇEŞEHİR STRADA IL PE TAB GIDA"
+    ],
+    "time": "00:00-02:00",
+    "rating": 2
+  },
+  {
+    "id": 57,
+    "day": "ÇARŞAMBA",
+    "order": 22,
+    "stops": [
+      "BK02.00558- ALKENT(İSTANBUL BÜYÜKÇEKMECEDEMİR LAVİDA IL BK FR)",
+      "PP02.00052 - ALKENT-2(İSTANBUL BÜYÜKÇEKMECE DEMİR LAVİDA IL PE FR)",
+      "BK01.00321 - SKYPORT BEYLİKDÜZÜ TAB GIDA",
+      "PP01.00298 - İSTANBUL SKYPORT IL PE TAB GIDA"
+    ],
+    "time": "01:00-02:30",
+    "rating": 3
+  },
+  {
+    "id": 58,
+    "day": "ÇARŞAMBA",
+    "order": 23,
+    "stops": [
+      "BK02.00721 - H-S TEKSTİL-6 GIDA  (ATAKÖY PLUS AVM FC BK)",
+      "PP01.00166 - İSTANBUL ATAKÖY A-PLUS AVM FC PE TAB GIDA",
+      "AR01.00069 - ATAKÖY A PLUS AVM ARBYS TAB GIDA",
+      "MARMARA FORUM AVM TAKV."
+    ],
+    "time": "01:00-02:30",
+    "rating": 2
+  },
+  {
+    "id": 59,
+    "day": "PERŞEMBE",
+    "order": 5,
+    "stops": [
+      "BK01.00040 - CEVAHİR TAB GIDA",
+      "AR01.00060 - CEVAHİR ARBYS TAB GIDA",
+      "BK01.00728 - İSTANBUL ŞİŞLİ HUKUKÇULAR IL BK TAB GIDA"
+    ],
+    "time": "22:00-00:00",
+    "rating": 4
+  },
+  {
+    "id": 60,
+    "day": "PERŞEMBE",
+    "order": 6,
+    "stops": [
+      "BK01.00613 - ZORLU AVM BK TAB GIDA SAN.VE TİC.A.Ş",
+      "PP01.00217 - İSTANBUL BEŞİKTAŞ ZORLU CENTER AVM FC PE TAB GIDA",
+      "AR01.00050 - ZORLU CENTER ARBYS TAB GIDA",
+      "UD01.00201 - İSTANBUL ZORLU CENTER UD TAB GIDA"
+    ],
+    "time": "22:00-23:00",
+    "rating": 5
+  },
+  {
+    "id": 61,
+    "day": "PERŞEMBE",
+    "order": 7,
+    "stops": [
+      "BK01.00871 - İSTANBUL GALATAPORT IL BK TAB GIDA",
+      "PP01.00473 - İSTANBUL GALATAPORT AVM FC PE TAB GIDA",
+      "BK01.00005 - SİRKECİ TAB GIDA"
+    ],
+    "time": "22:00-01:00",
+    "rating": 3
+  },
+  {
+    "id": 62,
+    "day": "PERŞEMBE",
+    "order": 8,
+    "stops": [
+      "BK02.00066 - BEMCO-2 (S.KÖY ARMONİPARK BK)",
+      "PP01.00462 - İSTANBUL ESENLER DÖRTYOL IL PE TAB GIDA",
+      "AR01.00191 - İSTANBUL ESENLER DÖRTYOL IL ARB TAB GIDA"
+    ],
+    "time": "00:00-02:00",
+    "rating": 2
+  },
+  {
+    "id": 63,
+    "day": "PERŞEMBE",
+    "order": 9,
+    "stops": [
+      "BK02.00397 - BEDİRLER OTO.-3(212 AVM BK FR)",
+      "PP01.00044 - İSTANBUL BAĞCILAR 212 AVM FC PE TAB GIDA",
+      "AR01.00181 - İSTANBUL İKİTELLİ 212 AVM FC ARB TAB GIDA",
+      "UD01.00032 - İSTANBUL İKİTELLİ 212 AVM FC UD"
+    ],
+    "time": "21:30-23:00",
+    "rating": 5
+  },
+  {
+    "id": 64,
+    "day": "PERŞEMBE",
+    "order": 10,
+    "stops": [
+      "BK02.00484 - GLOBALTÜRK(İSTANBUL ESENYURT N MERKEZ AVM FC BK FR)",
+      "PP02.00048 - GLOBALTÜRK-2(İST.ESENYURT N MERKEZ AVM FC PP FR)"
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 65,
+    "day": "PERŞEMBE",
+    "order": 11,
+    "stops": [
+      "BK02.00372 - EKUR İNŞ.-2 (MARMARAPARK BK FR)",
+      "AR01.00040 - BEYLİKDÜZÜ MARMARA PARK AVM ARBYS",
+      "UD01.00223 - İSTANBUL MARMARAPARK AVM FC UD TAB GIDA"
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 66,
+    "day": "PERŞEMBE",
+    "order": 12,
+    "stops": [
+      "BK01.00885 - İSTANBUL KAĞITHANE HAMİDİYE MAH.  IL BK TAB GIDA",
+      "PP01.00490 - İSTANBUL KAĞITHANE HAMİDİYE MAH. IL PP TAB GIDA",
+      "BK01.00783 - İSTANBUL SARIYER MEYDAN IL BK TAB GIDA"
+    ],
+    "time": "Ekipli : 22:00-01:30 Ekipsiz:20:00-01:00",
+    "rating": 2
+  },
+  {
+    "id": 67,
+    "day": "PERŞEMBE",
+    "order": 13,
+    "stops": [
+      "BK01.00315 - FULYA REAL AVM TAB GIDA",
+      "PP01.00491 - İSTANBUL FULYA REAL(ANPA) AVM FC PE",
+      "AR01.00201 - İSTANBUL FULYA REAL (ANPA) AVM FC ARBYS TAB GIDA",
+      "SB01.00261 - İSTANBUL FULYA ANPA AVM FC SB TAB GIDA SAN VE TİC.A.Ş.",
+      "UD01.00243 - İSTANBUL FULYA REAL (ANPA) AVM FC UD TAB GIDA"
+    ],
+    "time": "23:30-01:00",
+    "rating": 3
+  },
+  {
+    "id": 68,
+    "day": "PERŞEMBE",
+    "order": 14,
+    "stops": [
+      "BK02.00580 - BEŞİKTAŞ BİS GIDA ( İSTANBUL BEŞİKTAŞ IL BK FR)",
+      "PP01.00451 - İSTANBUL BEŞİKTAŞ BARBAROS BUL.IL PE TAB GIDA",
+      "SB02.00209 - İNCE NAKLİYE TURİZM İNŞ. GIDA (BEŞİKTAŞ BARBAROS BULVARI IL SB Aİ)"
+    ],
+    "time": "01:00-03:00",
+    "rating": 2
+  },
+  {
+    "id": 69,
+    "day": "PERŞEMBE",
+    "order": 15,
+    "stops": [
+      "BK02.00610 - ÖZZENGİN(ÇAĞLAYAN MEYDAN BK)",
+      "PP01.00362 - İSTANBUL ÇAĞLAYAN ADLİYE IL PE TAB GIDA",
+      "AR01.00155 - ÇAĞLAYAN ADLİYE İL ARBYS TAB GIDA"
+    ],
+    "time": "23.30-01:00",
+    "rating": 3
+  },
+  {
+    "id": 70,
+    "day": "PERŞEMBE",
+    "order": 16,
+    "stops": [
+      "BK01.00562 - DEMİRÖREN AVM BEYOĞLU BK TAB GIDA",
+      "BK01.00027 - TAKSİM TAB GIDA",
+      "FULYA REAL AVM TAKV."
+    ],
+    "time": "Belirtilmemiş",
+    "rating": null
+  },
+  {
+    "id": 71,
+    "day": "PERŞEMBE",
+    "order": 17,
+    "stops": [
+      "BK01.00015 - TARABYA  TAB GIDA",
+      "BK01.00038 - İSTİNYE CARREFOUR BK TAB GIDA",
+      "TEMPOINT VEGA AVM TAKV."
+    ],
+    "time": "00:00-02:00",
+    "rating": 2
+  },
+  {
+    "id": 72,
+    "day": "PERŞEMBE",
+    "order": 18,
+    "stops": [
+      "BK02.00711 - YILMER GIDA-7  (İSTANBUL ESENYURT ORHANGAZİ MAH. IL BK FR)",
+      "BK02.00742 - GLOBALTÜRK-8  (İSTANBUL BEYLİKDÜZÜ DEMİR COUNTRY IL BK FR)",
+      "PP01.00481 - İSTANBUL BEYLİKDÜZÜ DEMİR COUNTRY IL PE TAB GIDA"
+    ],
+    "time": "23:30-00:00",
+    "rating": 3
+  },
+  {
+    "id": 73,
+    "day": "PERŞEMBE",
+    "order": 19,
+    "stops": [
+      "BK01.00316 - TAKSİM FİTAŞ TAB GIDA",
+      "PP01.00427- İSTANBUL TAKSİM FİTAŞ IL PE TAB GIDA"
+    ],
+    "time": "saat 01:00-03:00",
+    "rating": 1
+  },
+  {
+    "id": 74,
+    "day": "PERŞEMBE",
+    "order": 20,
+    "stops": [
+      "BK01.00454 - TRUMP TOWERS AVM ŞİŞLİ BK",
+      "PP01.00168 - İSTANBUL ŞİŞLİ TRUMP TOWERS AVM FC PE TAB GIDA",
+      "AR01.00042 - TRUMP TOWERS AVM ŞİŞLİ ARBYS",
+      "BK01.00013 - MECİDİYEKÖY TAB GIDA",
+      "PP01.00072 - İSTANBUL MECİDİYEKÖY IL PE TAB GIDA"
+    ],
+    "time": "01:30-04:00",
+    "rating": 1
+  },
+  {
+    "id": 75,
+    "day": "PERŞEMBE",
+    "order": 21,
+    "stops": [
+      "MECİDİYEKÖY BK + PP + UD TAKV.",
+      "TRUMP TOWERS AVM TAKV."
+    ],
+    "time": "Belirtilmemiş",
+    "rating": null
+  },
+  {
+    "id": 76,
+    "day": "PERŞEMBE",
+    "order": 22,
+    "stops": [
+      "BK01.00775 - İSTANBUL TEMPOİNT VEGA AVM FC BK TAB GIDA",
+      "PP01.00271 - İSTANBUL TEM POINT VEGA AVM FC PE TAB GIDA",
+      "AR01.00135 - İSTANBUL TEMPOİNT VEGA AVM FC ARBYS TAB GIDA",
+      "SB02.00212 - GÖKMEL GIDA-2 RESTORAN (İSTANBUL TEMPOİNT VEGA AVM FC SB Aİ)",
+      "UD01.00185 - İSTANBUL TEMPOİNT VEGA AVM FC UD TAB GIDA"
+    ],
+    "time": "01:30-03:00",
+    "rating": 2
+  },
+  {
+    "id": 77,
+    "day": "CUMA",
+    "order": 4,
+    "stops": [
+      "BK02.00579 - ZHB GIDA(İST.BEYLİKDÜZÜ ADNAN KAHVECİ BUL.IL BK FR )",
+      "PP02.00056 - ZHB-3(İSTANBUL BEYLİKDÜZÜ ADNAN KAHVECİ BUL.IL PE FR)",
+      "SW02.00121 - ZHB-4 GIDA (İSTANBUL BEYLİKDÜZÜ ADNAN KAHVECİ BUL. IL SW)",
+      "PP01.00108 - İSTANBUL BEYLİKDÜZÜ MARMARA PARK AVM FC PE TAB GIDA",
+      "SB01.00125 - İSTANBUL BEYLİKDÜZÜ MARMARA PARK AVM FC SB TAB GIDA",
+      "UP02.00000 - REKLAM ÜSSÜ(İSTANBUL MARMARAPARK AVM  FC UP )"
+    ],
+    "time": "20:00-22:30",
+    "rating": 4
+  },
+  {
+    "id": 78,
+    "day": "CUMA",
+    "order": 6,
+    "stops": [
+      "BK01.00731 - İSTANBUL EYÜP PARK AVM FC BK TAB GIDA",
+      "SB01.00208 - İSTANBUL EYÜP PARK SB TAB GIDA",
+      "UP01.00009 - İSTANBUL EYÜP PARK AVM FC UP TAB GIDA",
+      "BK02.00263 - MOHSEN VE ASLAN GIDA (KÜÇÜKKÖY AYKUTOĞLU AVM BK)"
+    ],
+    "time": "20:30-23:00",
+    "rating": 4
+  },
+  {
+    "id": 79,
+    "day": "CUMA",
+    "order": 7,
+    "stops": [
+      "BK02.00199 - ARTA GIDA-2 (GÜNEŞLİ PARK AVM)",
+      "BK01.00615 - BAĞCILAR MEYDAN BK TAB GIDA",
+      "PP01.00450 - İSTANBUL BAĞCILAR MEYDAN2 IL PE TAB GIDA"
+    ],
+    "time": "22:00-01:00",
+    "rating": 5
+  },
+  {
+    "id": 80,
+    "day": "CUMA",
+    "order": 9,
+    "stops": [
+      "BK02.00214 - MOTEK GIDA (LEVENT ÖZDİLEK AVM BK)",
+      "PP01.00135 - İSTANBUL LEVENT ÖZDİLEK AVM FC PE TAB GIDA",
+      "AR01.00064 - LEVENT ÖZDİLEK ARBYS TAB GIDA",
+      "SB02.00163 - BALPOY GIDA TURİZM (İSTANBUL LEVENT ÖZDİLEK AVM FC SB Aİ)"
+    ],
+    "time": "22:00-00:00",
+    "rating": 4
+  },
+  {
+    "id": 81,
+    "day": "CUMA",
+    "order": 10,
+    "stops": [
+      "BK02.00450 - AROZ GIDA (OKMEYDANI IL BK FR)",
+      "PP01.00425 - İSTANBUL OKMEYDANI  IL PE TAB GIDA"
+    ],
+    "time": "21:30-23:00",
+    "rating": 3
+  },
+  {
+    "id": 82,
+    "day": "CUMA",
+    "order": 11,
+    "stops": [
+      "BK02.00154 - SERVETLER GIDA (SULTANGAZİ BK)",
+      "BK01.00700 - SULTANGAZİ NEVA OUTLET AVM FC BK TAB"
+    ],
+    "time": "21:00-23:30",
+    "rating": 3
+  },
+  {
+    "id": 83,
+    "day": "CUMA",
+    "order": 12,
+    "stops": [
+      "PP01.00330 - İSTANBUL BAĞCILAR MEYDAN IL PE TAB GIDA",
+      "AR01.00138 - İSTANBUL BAĞCILAR MEYDAN ARBY'S TAB GIDA",
+      "UD01.00199 - İSTANBUL BAĞCILAR MEYDAN IL UD TAB GIDA"
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 84,
+    "day": "CUMA",
+    "order": 13,
+    "stops": [
+      "BK01.00886 - İSTANBUL KÜÇÜKÇEKMECE HALKALI AVRUPAKENT IL BK TAB GIDA",
+      "PP01.00445 - İST.KÜÇÜKÇEKMECE HALKALI AVRUPAKENT IL PE TAB GIDA",
+      "BK01.00495 - SEFAKÖY MEYDAN BK TAB GIDA"
+    ],
+    "time": "23:00-01:00",
+    "rating": 1
+  },
+  {
+    "id": 85,
+    "day": "CUMA",
+    "order": 14,
+    "stops": [
+      "BK01.00762 - İSTANBUL MERTER REAL AVM FC BK TAB GIDA",
+      "SB01.00258 - İSTANBUL MERTER REAL IL SB TAB GIDA",
+      "PP01.00329 - İSTANBUL GÜNGÖREN PARK AVM IL PE TAB GIDA"
+    ],
+    "time": "23:00-00:30",
+    "rating": 3
+  },
+  {
+    "id": 86,
+    "day": "CUMA",
+    "order": 15,
+    "stops": [
+      "BK01.00030 - OLIVIUM CENTER TAB GIDA",
+      "PP01.00208 - İSTANBUL ZEYTİNBURNU OLIVIUM AVM FC PE TAB GIDA",
+      "AR01.00140 - İSTANBUL OLIVIUM AVM FC ARBYS TAB GIDA",
+      "SB01.00252 - İSTANBUL OLİVİUM AVM FC SB TAB GIDA",
+      "UD01.00233 - İSTANBUL OLİVİUM AVM FC UD TAB GIDA"
+    ],
+    "time": "22:00-00:00",
+    "rating": 4
+  },
+  {
+    "id": 87,
+    "day": "CUMA",
+    "order": 17,
+    "stops": [
+      "PP01.00128 - İSTANBUL İKİTELLİ MALL OF THE İSTANBUL AVM FC PE TAB GIDA",
+      "AR01.00061 - MALL OF THE İSTANBUL ARBYS TAB GIDA",
+      "BK01.00719 - İSTANBUL İKİTELLİ ORGANİZE SAN. IL BK TAB GIDA"
+    ],
+    "time": "23:30-01:30",
+    "rating": 4
+  },
+  {
+    "id": 88,
+    "day": "CUMA",
+    "order": 18,
+    "stops": [
+      "BK02.00116 - TMC-2 GIDA (ARTERIUM BK)",
+      "PP01.00402 - BAŞAKŞEHİR ARTERIUM PE TAB GIDA",
+      "BK01.00587 - CENNET DRIVE TRUE BK TAB GIDA"
+    ],
+    "time": "23:30-01:30",
+    "rating": 3
+  },
+  {
+    "id": 89,
+    "day": "CUMA",
+    "order": 19,
+    "stops": [
+      "BK02.00396 - BEDİRLER OTO.-2(FATİH BK BR)",
+      "BK02.00281 - MERNUR GIDA-2 (ÇAPA BK)",
+      "BK01.00883 - İSTANBUL BEYOĞLU KARAKÖY MUMHANE CD. IL BK TAB GIDA"
+    ],
+    "time": "22:00-03:00",
+    "rating": 0
+  },
+  {
+    "id": 90,
+    "day": "CUMA",
+    "order": 20,
+    "stops": [
+      "BK02.00698 - ALN GIDA-2(İST. BÜYÜKÇEKMECE KAMİLOBA IL BK FR)",
+      "BK01.00289 - SİLİVRİ KİPA TAB GIDA",
+      "PP01.00146 - SİLİVRİ KİPA PP TAB GIDA"
+    ],
+    "time": "00:30-02:30",
+    "rating": 2
+  },
+  {
+    "id": 91,
+    "day": "CUMA",
+    "order": 21,
+    "stops": [
+      "BK01.00034 - ŞİŞLİ DRIVE TAB GIDA",
+      "PP01.00248 - İSTANBUL ŞİŞLİ BLACKOUT IL PE TAB GIDA",
+      "BK02.00415 - SILA YATIRIM GIDA(ŞİŞLİ MEYDAN FR BK)"
+    ],
+    "time": "23:30-01:30",
+    "rating": 4
+  },
+  {
+    "id": 92,
+    "day": "CUMA",
+    "order": 22,
+    "stops": [
+      "BK01.00096 - SİLİVRİ TAB GIDA",
+      "PP01.00488 - İSTANBUL SİLİVRİ MAXİ AVM PE FC TAB GIDA",
+      "UD01.00241 - SİLİVRİ VEGA AVM FC UD TAB GIDA",
+      "SİLİVRİ KİPA BK + PP TAKV."
+    ],
+    "time": "01:00-03:30",
+    "rating": 2
+  },
+  {
+    "id": 93,
+    "day": "CUMA",
+    "order": 23,
+    "stops": [
+      "BK01.00393 - MARMARA FORUM AVM B.KÖY TAB",
+      "SB01.00085 - İSTANBUL BAKIRKÖY MARMARA FORUM AVM FC SB TAB GIDA",
+      "UD02.00108 - İS RESTORAN VE GIDA ( İSTANBUL MARMARA FORUM AVM FC UD Aİ)",
+      "BK01.00017 - İNCİRLİ TAB GIDA"
+    ],
+    "time": "01:00-03:00",
+    "rating": 2
+  },
+  {
+    "id": 94,
+    "day": "CUMARTESİ",
+    "order": 5,
+    "stops": [
+      "BK02.00677 - ADKAYA GIDA (İSTANBUL ISPARTAKULE BİZİM EVLER IL BK FR)",
+      "PP02.00106 - ADKAYA GIDA-2 (İSTANBUL ISPARTAKULE BİZİM EVLER IL PE FR)",
+      "PP01.00041 - İSTANBUL ŞİŞLİ CEVAHİR AVM FC PE TAB GIDA",
+      "SB01.00002 - İSTANBUL ŞİŞLİ CEVAHİR AVM FC SB TAB GIDA"
+    ],
+    "time": "18:30-23:30",
+    "rating": 5
+  },
+  {
+    "id": 95,
+    "day": "CUMARTESİ",
+    "order": 6,
+    "stops": [
+      "BK02.00454 - TMC-5 GIDA (FORUM İST AVM FC FR BK)",
+      "PP02.00031 - TMC-3 GIDA (FORUM İST AVM FC FR PE)",
+      "ADKAYA GIDA (İSTANBUL ISPARTAKULE BİZİM EVLER IL BK + PP)"
+    ],
+    "time": "21:30-23:00",
+    "rating": 4
+  },
+  {
+    "id": 96,
+    "day": "CUMARTESİ",
+    "order": 7,
+    "stops": [
+      "BK02.00164 - BİRİKİM PET-BEŞYÜZEVLER B.PAŞA BK",
+      "PP01.00075 - İSTANBUL İSTİKLAL AVM FC PE TAB GIDA",
+      "AR01.00018 - İSTANBUL İSTİKLAL AVM ARBYS TAB GIDA"
+    ],
+    "time": "21:00",
+    "rating": 2
+  },
+  {
+    "id": 97,
+    "day": "CUMARTESİ",
+    "order": 8,
+    "stops": [
+      "BK02.00570 - AQUACİTY GIDA(İSTANBUL AQUA FLORYA AVM FC BK FR)",
+      "PP01.00401 - İSTANBUL AQUA FLORYA AVM FC PE TAB",
+      "BK01.00380 - TORIUM AVM ESENYURT TAB GIDA",
+      "AR01.00011 - TORİUM AVM ESENYURT ARYBYS TAB"
+    ],
+    "time": "21:30-00:30",
+    "rating": 3
+  },
+  {
+    "id": 98,
+    "day": "CUMARTESİ",
+    "order": 9,
+    "stops": [
+      "BK02.00312 - TS GIDA REST. ( PELICAN AVM BK )",
+      "PP01.00420 - İSTANBUL PELİCAN AVM FC PE TAB GIDA",
+      "AR01.00182 - İSTANBUL PELİCAN AVM FC ARB TAB GIDA",
+      "UD01.00229 - İSTANBUL PELİCAN AVM FC UD"
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 99,
+    "day": "CUMARTESİ",
+    "order": 10,
+    "stops": [
+      "BK02.00697 - ALN GIDA (İSTANBUL PERLAVİSTA AVM FC BK FR)",
+      "PP01.00064 - İSTANBUL BEYLİKDÜZÜ PERLAVISTA AVM FC PE TAB GIDA",
+      "AR01.00089 - İSTANBUL PERLAVİSTA AVM FC ARBYS TAB GIDA",
+      "UD01.00242 - İSTANBUL PERLAVİSTA AVM FC UD TAB GIDA"
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 100,
+    "day": "CUMARTESİ",
+    "order": 11,
+    "stops": [
+      "BK02.00745 - CEF GLOBAL-2 (İSTANBUL ARNAVUTKÖY FLORENTIA VİLLAGE AVM FC BK)",
+      "PP02.00138 - CEF GLOBAL-3 (İSTANBUL ARNAVUTKÖY FLORENTIA VİLLAGE AVM FC PE)",
+      "SW02.00210 - CEF GLOBAL-1 (İSTANBUL ARNAVUTKÖY FLORENTIA VİLLAGE AVM FC SW)"
+    ],
+    "time": "23:30-00:30",
+    "rating": 3
+  },
+  {
+    "id": 101,
+    "day": "CUMARTESİ",
+    "order": 12,
+    "stops": [
+      "BK02.00085 - H-S TEKS.GIDA (İSTANBUL CAPACITY AVM FC BK FR)",
+      "PP01.00035 - İSTANBUL BAKIRKÖY CAPACITY AVM FC PE TAB GIDA",
+      "AR02.00016 - DUYGU ÇOLAK (İSTANBUL CAPACITY AVM FC AR Aİ)",
+      "UD02.00151 - ZEMCET GIDA (İST.CAPACITY AVM FC UD TAB GIDA)"
+    ],
+    "time": "22:00-23:30",
+    "rating": 5
+  },
+  {
+    "id": 102,
+    "day": "CUMARTESİ",
+    "order": 13,
+    "stops": [
+      "BK02.00623 - YILMER GIDA-6 (İST.ARNAVUTKÖY FATİH CAD. IL BK FR)",
+      "BK02.00545 - MEG LOJİSTİK-3(İST.KAYAŞEHİR MİLLET BAHÇESİ IL BK FR)",
+      "PP02.00043 - MEG LOJİSTİK-2(İST.KAYAŞEHİR MİLLET BAHÇESİ IL PE)"
+    ],
+    "time": "23:00-01:00",
+    "rating": 3
+  },
+  {
+    "id": 103,
+    "day": "CUMARTESİ",
+    "order": 14,
+    "stops": [
+      "BK01.00620 - BAHÇEŞEHİR 3.CADDE BK TAB GIDA",
+      "PP01.00416 - İSTANBUL BAHÇEŞEHİR 3.CAD.ŞEHRİ BAZAAR IL PE TAB GIDA.",
+      "PP01.00446 - İSTANBUL BAHÇEŞEHİR STRADA IL PE TAB GIDA"
+    ],
+    "time": "23:30-01:00",
+    "rating": 4
+  },
+  {
+    "id": 104,
+    "day": "CUMARTESİ",
+    "order": 15,
+    "stops": [
+      "BK01.00498 - YENİBOSNA KOÇTAŞ BK TAB GIDA",
+      "PP01.00291 - İSTANBUL YENİBOSNA KOÇTAŞ AVM FC PE TAB GIDA",
+      "BK01.00093 - KADİRHAS CENTER TAB GIDA"
+    ],
+    "time": "00:00-01:30",
+    "rating": 4
+  },
+  {
+    "id": 105,
+    "day": "CUMARTESİ",
+    "order": 16,
+    "stops": [
+      "BK02.00408 - H-S TEKSTİL 4 (CAROUSEL AVM FC BK FR)",
+      "PP01.00101 - CAROUSEL AVM POPEYES TAB GIDA",
+      "AR01.00001 - CAROUSEL(B.KÖY) ARBYS TAB GIDA"
+    ],
+    "time": "22:30-00:30",
+    "rating": 4
+  },
+  {
+    "id": 106,
+    "day": "CUMARTESİ",
+    "order": 17,
+    "stops": [
+      "PP01.00317 - İST. B.HAYRETTİN PAŞA TRENDPARK IL PE TAB GIDA",
+      "AR01.00129 - İST. B.HAYRETTİN PAŞA TRENDPARK IL ARBYS TAB GIDA",
+      "BK01.00855 - İSTANBUL BAŞAKŞEHİR BAHÇEŞEHİR GÖLET IL BK TAB GIDA"
+    ],
+    "time": "00:00-02:30",
+    "rating": 3
+  },
+  {
+    "id": 107,
+    "day": "CUMARTESİ",
+    "order": 18,
+    "stops": [
+      "BK01.00756 - İSTANBUL BEYLİKDÜZÜ CUMHURİYET CAD.IL BK TAB",
+      "PP01.00250 - İSTANBUL BEYLİKDÜZÜ CUMHURİYET CAD. IL PE TAB GIDA",
+      "SKYPORT BK + PP TAKV."
+    ],
+    "time": "23:00-00:30",
+    "rating": 4
+  },
+  {
+    "id": 108,
+    "day": "CUMARTESİ",
+    "order": 19,
+    "stops": [
+      "BK02.00558- ALKENT(İSTANBUL BÜYÜKÇEKMECEDEMİR LAVİDA IL BK FR)",
+      "PP02.00052 - ALKENT-2(İSTANBUL BÜYÜKÇEKMECE DEMİR LAVİDA IL PE FR)",
+      "BK01.00321 - SKYPORT BEYLİKDÜZÜ TAB GIDA",
+      "PP01.00298 - İSTANBUL SKYPORT IL PE TAB GIDA"
+    ],
+    "time": "01:00-02:30",
+    "rating": 3
+  },
+  {
+    "id": 109,
+    "day": "CUMARTESİ",
+    "order": 20,
+    "stops": [
+      "BK02.00721 - H-S TEKSTİL-6 GIDA  (ATAKÖY PLUS AVM FC BK)",
+      "PP01.00166 - İSTANBUL ATAKÖY A-PLUS AVM FC PE TAB GIDA",
+      "AR01.00069 - ATAKÖY A PLUS AVM ARBYS TAB GIDA"
+    ],
+    "time": "01:00-02:30",
+    "rating": 2
+  },
+  {
+    "id": 110,
+    "day": "CUMARTESİ",
+    "order": 21,
+    "stops": [
+      "BK01.00798 - İSTANBUL BEYLİKDÜZÜ FIRST AVENUE AVM FC BK TAB GIDA",
+      "PP01.00292 - İSTANBUL BEYLİKDÜZÜ FIRST AVENUE AVM FC PE TAB GIDA",
+      "UD02.00073 - FATİH YAZICI(İST.B.DÜZÜ FIRST AVENUE AVM FC UD Aİ)",
+      "ALKENT BK + PP TAKV."
+    ],
+    "time": "00:00-01:00",
+    "rating": 4
+  }
+]
